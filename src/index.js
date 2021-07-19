@@ -1,11 +1,5 @@
-const name = "Mike";
+import { add, name } from "./utilities";
+
+console.log("index.js");
+console.log(add(1, 2));
 console.log(name);
-
-class Hangman {
-  myMethod() {
-    return "Testing";
-  }
-}
-
-const newGame = new Hangman();
-console.log(newGame.myMethod());

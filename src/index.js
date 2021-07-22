@@ -1,63 +1,32 @@
-// Rest parameters: assigned as "...restparametes"
-
-const printTeam = (team, coach, ...players) => {
-  console.log(`Team: ${team}`);
-  console.log(`Coach: ${coach}`);
-  console.log(`Players: ${players.join(", ")}`);
+// Destructuring -- very handful when working with objects
+const todo = {
+  id: "doasnoia",
+  text: "pay the bills",
+  status: false,
 };
 
-// printTeam("Liberty", "Casey Penn", "Merge", "Aiden", "Herbert", "Sherry");
-
-// Spread Syntax:
-
-const team = {
-  name: "Liberty",
-  coach: "Casey Penn",
-  players: ["Merge", "Aiden", "Herbert", "Sherry"],
+const printTodo = ({ text, status }) => {
+  console.log(`${text}: ${status}`);
 };
+printTodo(todo);
 
-printTeam(team.name, team.coach, ...team.players);
+const {
+  text: todoText,
+  status,
+  details = "no details provided",
+  ...others
+} = todo;
 
-let cities = ["Barcelona", "Cape town", "Bordeaux"];
-cities = ["Paris", ...cities];
-const citiesCopy = [...cities, "Santiago"];
+console.log(todoText);
+console.log(status);
+console.log(details);
+console.log(others);
 
-console.log(cities);
-console.log(citiesCopy);
-
-// Object Spread Syntax
-let house = {
-  bedrooms: 2,
-  bathrooms: 1.5,
-  yearBuilt: 2018,
-};
-
-let newHouse = {
-  basement: true,
-  ...house,
-  bedrooms: 3,
-};
-newHouse.yearBuilt = 2017;
-
-console.log(house);
-console.log(newHouse);
-
-// Creat a person object with name and age
-// Create a location object with city and country
-// Create a new overview object and use the spread operator to add all four properties
-
-const person = {
-  name: "Jeff",
-  age: 56,
-};
-
-const location = {
-  city: "New York",
-  country: "USA",
-};
-
-const overview = {
-  ...person,
-  ...location,
-};
-console.log(overview);
+// Destructuring with arrays
+const age = [22, 42, 21, 53, 5, 76, 90];
+const [firstAge, secondAge, , lastAge, moreAge = 26, ...otherAges] = age;
+console.log(firstAge);
+console.log(secondAge);
+console.log(lastAge);
+console.log(moreAge);
+console.log(otherAges);

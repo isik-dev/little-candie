@@ -96,13 +96,18 @@ const updateExpense = (id, updates) => {
 expenses = loadExpenses();
 
 // calculateTotal: does not take any arguments, returns total amount
-const calculateTotal = () => {
-  let total = 0;
-  expenses.forEach((value) => {
-    total += value.amount;
-  });
-  return total;
-};
+// const calculateTotal = () => {
+//   let total = 0;
+//   expenses.forEach((value) => {
+//     total += value.amount;
+//   });
+//   return total;
+// };
 
-const now = moment().valueOf();
-console.log(now);
+export {
+  getExpenses,
+  createExpense,
+  updateExpense,
+  removeExpense,
+  sortExpenses,
+};

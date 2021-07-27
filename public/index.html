@@ -4,14 +4,23 @@
         <title>Expense Calculator</title>
     </head>
     <body>
-        <h1>This is the Main Page of Personal Expense Calculator</h1>
-        <li>
-            <input id="checkboxD" type="checkbox">
-            <label for="checkboxD">David</label>
-            
-        </li>
-        <input type="password" id="textboxD">
-        <button id="submitButton">Submit</button>
+        <header class="header">
+            <div class="container">
+                <h1 class="header__title">Expense Tracker</h1>
+                <h2 class="header__subtitle">This is Expense Tracker subtitle</h2>
+            </div>
+        </header>
+        <div class="namePicker">
+            <input id="davidCheckbox" type="checkbox">
+            <label for="davidCheckbox">David</label>
+        </div>
+
+        <div class="container">
+            <input type="password" id="textboxD">
+            <button id="submitButton">Submit</button>
+            <div id="expenses"></div>
+        </div>
+        
         
         <script src="/scripts/index-bundle.js"></script>
     </body>

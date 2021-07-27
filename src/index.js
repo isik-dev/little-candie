@@ -1,4 +1,6 @@
 import { createExpense } from "./expenses";
 
-const id = createExpense();
-console.log(id);
+document.querySelector("#submitButton").addEventListener("click", (e) => {
+  const id = createExpense();
+  location.assign(`/edit.html#${id}`);
+});

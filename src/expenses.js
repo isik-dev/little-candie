@@ -1,7 +1,5 @@
 import moment from "moment";
-import { v4 as uuidv4 } from "uuid";
-
-console.log("testing");
+import uuidv4 from "uuid/v4";
 
 // Iniatializing expenses array.
 let expenses = [];
@@ -30,12 +28,12 @@ const createExpense = () => {
   const timestamp = moment().valueOf();
   expenses.push({
     id: id,
-    amount: 0,
+    amount: "",
     description: "",
     createdAt: timestamp,
     updatedAt: timestamp,
   });
-  saveExpenses();
+  saveExpenses(expenses);
   return id;
 };
 
@@ -81,11 +79,11 @@ const updateExpense = (id, updates) => {
   if (!expense) {
     return;
   }
-  if (typeof expense.amount === "number") {
+  if (typeof updates.amount === "string") {
     expense.amount = updates.amount;
     expense.updatedAt = moment().valueOf();
   }
-  if (typeof expense.description === "string") {
+  if (typeof updates.description === "string") {
     expense.description = updates.description;
     expense.updatedAt = moment().valueOf();
   }
@@ -94,15 +92,6 @@ const updateExpense = (id, updates) => {
 };
 
 expenses = loadExpenses();
-
-// calculateTotal: does not take any arguments, returns total amount
-// const calculateTotal = () => {
-//   let total = 0;
-//   expenses.forEach((value) => {
-//     total += value.amount;
-//   });
-//   return total;
-// };
 
 export {
   getExpenses,

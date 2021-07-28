@@ -5,6 +5,7 @@ const checkedD = document.querySelector("#checkboxD");
 let checkboxChecked;
 checkedD.addEventListener("change", (e) => {
   checkboxChecked = e.target.value;
+  e.target.value = false;
 });
 
 // saving password input value inside passwordValue
@@ -17,7 +18,8 @@ passwordD.addEventListener("change", (e) => {
 // Submit button
 const submitD = document.querySelector("#submitD");
 submitD.addEventListener("click", (e) => {
-  if (checkboxChecked && passwordValue === "password") {
+  if (checkboxChecked && passwordValue.toLowerCase() === "123") {
     console.log("we can go to the next page");
+    location.assign(`edit.html`);
   }
 });

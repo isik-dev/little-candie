@@ -1,14 +1,10 @@
 const path = require("path");
 
 module.exports = {
-  entry: {
-    index: ["@babel/polyfill", "./src/index.js"],
-    edit: ["@babel/polyfill", "./src/edit.js"],
-  },
-
+  entry: ["@babel/polyfill", "./src/index.js"],
   output: {
     path: path.resolve(__dirname, "public/scripts"),
-    filename: "[name]-bundle.js",
+    filename: "bundle.js",
   },
   module: {
     rules: [

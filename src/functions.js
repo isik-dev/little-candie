@@ -53,6 +53,15 @@ const updateExpenses = (id, updates) => {
   return expense;
 };
 
+// remove function for an individual expense
+const removeExpense = (id) => {
+  const expenseIndex = expenses.findIndex((expense) => expense.id === id);
+  if (expenseIndex > -1) {
+    expenses.splice(expenseIndex, 1);
+    saveExpenses();
+  }
+};
+
 expenses = loadExpenses();
 
 //////////////////////////////////////////////////////////
@@ -62,4 +71,5 @@ export {
   getExpenses,
   createExpense,
   updateExpenses,
+  removeExpense,
 };

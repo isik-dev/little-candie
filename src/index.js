@@ -22,7 +22,7 @@ const submitD = document.querySelector("#submitD");
 submitD.addEventListener("click", (e) => {
   if (checkboxChecked && passwordValue.toLowerCase() === "123") {
     console.log("we can go to the next page");
-    const expenseID = createExpense();
-    location.assign(`edit.html#${expenseID}`);
+    // const expenseID = createExpense();
+    location.assign(`render.html`);
   }
 });

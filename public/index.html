@@ -2,16 +2,54 @@
 <html>
     <head>
         <title>Roomie</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div>
-            <input type="checkbox" id="checkboxD">
-            <label for="checkboxD">David</label>
+        <div class="row">
+            <div class="column">
+                <div>
+                    <input type="checkbox" id="checkboxD">
+                    <label for="checkboxD">David</label>
+                </div>
+                <div>
+                    <input id="passwordD" type="password">
+                    <button id="submitD">Submit</button>
+                </div>
+                <div id="calculationsD">
+                    <div>
+                        <label for="totalD">Total for the month:</label>
+                        <label id="totalD">$</label>
+                    </div>
+                    <div>
+                        <label for="differenceD">Difference</label>
+                        <label id="differenceD">$</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div>
+                    <input type="checkbox" id="checkboxJ">
+                    <label for="checkboxJ">Justin</label>
+                </div>
+                <div>
+                    <input id="passwordJ" type="password">
+                    <button id="submitJ">Submit</button>
+                </div>
+                <div id="calculationsJ">
+                    <div>
+                        <label for="totalJ">Total for the month:</label>
+                        <label id="totalJ">$</label>
+                    </div>
+                    <div>
+                        <label for="differenceJ">Difference</label>
+                        <label id="differenceJ">$</label>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
-        <div>
-            <input id="passwordD" type="password">
-            <button id="submitD">Submit</button>
-        </div>
+        
         <script src="/scripts/index-bundle.js"></script>
     </body>
 </html>

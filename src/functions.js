@@ -65,6 +65,72 @@ const removeExpense = (id) => {
 expenses = loadExpenses();
 
 //////////////////////////////////////////////////////////
+
+// generate the DOM structure for each expense
+const generateDOM = (expense) => {
+  const expenseEl = document.createElement("a");
+  const amountEl = document.createElement("p");
+  const descriptionEl = document.createElement("p");
+
+  // setup the expense amount text
+  if (expense.amount.length > 0) {
+    amountEl.textContent = expense.amount;
+  } else {
+    amountEl.textContent = "Amount Not Given";
+  }
+  amountEl.classList.add("list-item__title");
+  expenseEl.appendChild(amountEl);
+
+  // setup the link
+  expenseEl.setAttribute("href", `edit.html#${expense.id}`);
+  expenseEl.classList.add("list-item");
+
+  // setup the description
+  if (expense.description.length > 0) {
+    descriptionEl.textContent = expense.description;
+  } else {
+    descriptionEl.textContent = "Description Not Given";
+  }
+  descriptionEl.classList.add("list-item__subtitle");
+  expenseEl.appendChild(descriptionEl);
+
+  return expenseEl;
+};
+
+// render application expenses
+const renderExpense = () => {
+  const expensesEl = document.querySelector("#expenses");
+  const expenses = getExpenses();
+
+  if (expenses.length > 0) {
+    expenses.forEach((expense) => {
+      const expenseEl = generateDOM(expense);
+      expensesEl.appendChild(expenseEl);
+    });
+  } else {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No expenses to show";
+    emptyMessage.classList.add("empty-message");
+    expensesEl.appendChild(emptyMessage);
+  }
+};
+
+// initializedEditPage function
+const initializedEditPage = (id) => {
+  const amountEl = document.querySelector("#amountD");
+  const descriptionEl = document.querySelector("#descriptionD");
+  expenses = getExpenses();
+  const expense = expenses.find((expense) => expense.id === id);
+
+  if (!expense) {
+    location.assign("/index.html");
+  }
+
+  amountEl.value = expense.amount;
+  descriptionEl.value = expense.description;
+};
+
+//////////////////////////////////////////////////////////
 export {
   loadExpenses,
   saveExpenses,
@@ -72,4 +138,7 @@ export {
   createExpense,
   updateExpenses,
   removeExpense,
+  renderExpense,
+  generateDOM,
+  initializedEditPage,
 };

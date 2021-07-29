@@ -1,28 +1,50 @@
 import { createExpense } from "./functions";
 
 console.log("index.js is runnig");
-
-// checking if the checkbox is checked
+// querySelectors for index.html
 const checkedD = document.querySelector("#checkboxD");
-let checkboxChecked;
+const checkedJ = document.querySelector("#checkboxJ");
+const passwordD = document.querySelector("#passwordD");
+const passwordJ = document.querySelector("#passwordJ");
+const submitD = document.querySelector("#submitD");
+const submitJ = document.querySelector("#submitJ");
+
+// Checkbox Functionality --- David
+let checkboxCheckedD;
 checkedD.addEventListener("change", (e) => {
-  checkboxChecked = e.target.value;
+  checkboxCheckedD = e.target.value;
   e.target.value = false;
 });
 
-// saving password input value inside passwordValue
-const passwordD = document.querySelector("#passwordD");
-let passwordValue;
-passwordD.addEventListener("change", (e) => {
-  passwordValue = e.target.value;
+// Checkbox Functionality --- Justin
+let checkboxCheckedJ;
+checkedJ.addEventListener("change", (e) => {
+  checkboxCheckedJ = e.target.value;
+  e.target.value = false;
 });
 
-// Submit button
-const submitD = document.querySelector("#submitD");
+// Password Functionality --- David
+let passwordValueD;
+passwordD.addEventListener("change", (e) => {
+  passwordValueD = e.target.value;
+});
+
+// Password Functionality --- Justin
+let passwordValueJ;
+passwordJ.addEventListener("change", (e) => {
+  passwordValueJ = e.target.value;
+});
+
+// Submit Button Functionality --- Justin
 submitD.addEventListener("click", (e) => {
-  if (checkboxChecked && passwordValue.toLowerCase() === "123") {
-    console.log("we can go to the next page");
-    // const expenseID = createExpense();
+  if (checkboxCheckedD && passwordValueD.toLowerCase() === "123") {
     location.assign(`render.html`);
+  }
+});
+
+// Submit Functionality --- Justin
+submitJ.addEventListener("click", (e) => {
+  if (checkboxCheckedJ && passwordValueJ.toLowerCase() === "321") {
+    location.assign("render.html");
   }
 });

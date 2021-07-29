@@ -1,4 +1,8 @@
-import { updateExpenses, removeExpense } from "./functions";
+import {
+  updateExpenses,
+  removeExpense,
+  initializedEditPage,
+} from "./functions";
 
 // Query selectors from my edit.html
 const amountElement = document.querySelector("#amountD");
@@ -8,6 +12,9 @@ const removeElement = document.querySelector("#removeD");
 
 // take a hold of noteID --> unique uuid coming from index.js
 const noteID = location.hash.substring(1);
+
+// setting initial values if there are
+initializedEditPage(noteID);
 
 // appending the amount property of the expense object
 amountElement.addEventListener("input", (e) => {

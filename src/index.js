@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
+
 console.log("index.js is runnig");
 
 // checking if the checkbox is checked
@@ -23,3 +26,36 @@ submitD.addEventListener("click", (e) => {
     location.assign(`edit.html`);
   }
 });
+
+// generate an empty expenses array
+let expenses = [];
+
+// load data from the local storage
+const loadExpenses = () => {
+  const expensesJSON = localStorage.getItem("expenses");
+  try {
+    return expensesJSON ? JSON.parse(expensesJSON) : [];
+  } catch (e) {
+    return [];
+  }
+};
+
+// save expenses into the local storage
+const saveExpenses = () => {
+  localStorage.setItem("expenses", JSON.stringify(expenses));
+};
+
+// expose notes from module
+const getExpenses = () => expenses;
+
+// push a new object into the expenses array
+const createExpense = () => {
+  const id = uuidv4();
+  expenses.push({
+    id: id,
+    amount: "",
+    description: "",
+  });
+  saveExpenses();
+  return id;
+};

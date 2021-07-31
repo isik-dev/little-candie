@@ -31,7 +31,7 @@ descriptionElement.addEventListener("input", (e) => {
   });
 });
 
-// redirecting to the home page when submit button is pressed
+// redirecting to the render page when submit button is pressed
 submitEl.addEventListener("click", (e) => {
   location.assign(`render.html#${uniqueToken}`);
 });

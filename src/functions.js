@@ -100,9 +100,9 @@ const generateDOM = (expense) => {
 // render application expenses
 const renderExpense = (uniqueToken) => {
   let expensesEl;
-  if (uniqueToken === "oianfia-993201") {
+  if (uniqueToken === "david") {
     expensesEl = document.querySelector("#expenses");
-  } else if (uniqueToken === "fijfewn0-2nionf") {
+  } else if (uniqueToken === "justin") {
     expensesEl = document.querySelector("#expensesJ");
   } else {
     alert("wrong password");

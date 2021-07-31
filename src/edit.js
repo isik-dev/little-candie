@@ -10,8 +10,9 @@ const descriptionElement = document.querySelector("#descriptionD");
 const submitEl = document.querySelector("#submitD");
 const removeElement = document.querySelector("#removeD");
 
-// take a hold of noteID --> unique uuid coming from index.js
+// take a hold of noteID & uniqueToken --> unique uuid coming from index.js
 const noteID = location.hash.substring(1);
+const uniqueToken = location.hash.substring(2);
 
 // setting initial values if there are
 initializedEditPage(noteID);
@@ -32,11 +33,11 @@ descriptionElement.addEventListener("input", (e) => {
 
 // redirecting to the home page when submit button is pressed
 submitEl.addEventListener("click", (e) => {
-  location.assign("render.html");
+  location.assign(`render.html#${uniqueToken}`);
 });
 
 // remove an object and redirect to home page
 removeElement.addEventListener("click", (e) => {
   removeExpense(noteID);
-  location.assign("render.html");
+  location.assign(`render.html#${uniqueToken}`);
 });

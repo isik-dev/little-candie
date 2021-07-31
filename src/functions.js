@@ -98,8 +98,16 @@ const generateDOM = (expense) => {
 };
 
 // render application expenses
-const renderExpense = () => {
-  const expensesEl = document.querySelector("#expenses");
+const renderExpense = (uniqueToken) => {
+  let expensesEl;
+  if (uniqueToken === "oianfia-993201") {
+    expensesEl = document.querySelector("#expenses");
+  } else if (uniqueToken === "fijfewn0-2nionf") {
+    expensesEl = document.querySelector("#expensesJ");
+  } else {
+    alert("wrong password");
+  }
+
   const expenses = getExpenses();
 
   if (expenses.length > 0) {

@@ -8,6 +8,8 @@ const passwordD = document.querySelector("#passwordD");
 const passwordJ = document.querySelector("#passwordJ");
 const submitD = document.querySelector("#submitD");
 const submitJ = document.querySelector("#submitJ");
+const uniqueTokenD = "oianfia-993201";
+const uniqueTokenJ = "fijfewn0-2nionf";
 
 // Checkbox Functionality --- David
 let checkboxCheckedD;
@@ -38,13 +40,13 @@ passwordJ.addEventListener("change", (e) => {
 // Submit Button Functionality --- Justin
 submitD.addEventListener("click", (e) => {
   if (checkboxCheckedD && passwordValueD.toLowerCase() === "123") {
-    location.assign(`render.html`);
+    location.assign(`render.html#${uniqueTokenD}`);
   }
 });
 
 // Submit Functionality --- Justin
 submitJ.addEventListener("click", (e) => {
   if (checkboxCheckedJ && passwordValueJ.toLowerCase() === "321") {
-    location.assign("render.html");
+    location.assign(`render.html#${uniqueTokenJ}`);
   }
 });

@@ -1,6 +1,9 @@
 import { createExpense, renderExpense } from "./functions";
 
-renderExpense();
+// Getting the unique token
+const uniqueToken = location.hash.substring(1);
+
+renderExpense(uniqueToken);
 console.log("you are in the render page");
 
 // listen for the add button, sign out button for both users

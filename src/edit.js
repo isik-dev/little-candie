@@ -12,7 +12,7 @@ const removeElement = document.querySelector("#removeD");
 
 // take a hold of noteID & uniqueToken --> unique uuid coming from index.js
 const noteID = location.hash.substring(1);
-const uniqueToken = location.hash.substring(2);
+const uniqueToken = localStorage.getItem("user");
 
 // setting initial values if there are
 initializedEditPage(noteID);

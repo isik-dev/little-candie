@@ -19,6 +19,7 @@
   "homepage": "https://github.com/islomnumanov/little-candie#readme",
   "devDependencies": {
     "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "babel-loader": "^8.2.2",
     "webpack": "^5.46.0",

@@ -24,10 +24,13 @@ const getExpenses = () => expenses;
 // push a new object into the expenses array
 const createExpense = () => {
   const id = uuidv4();
+  const getUser = localStorage.getItem("user");
+  console.log("getUser", getUser);
   expenses.push({
     id: id,
     amount: "",
     description: "",
+    user: getUser,
   });
   saveExpenses();
   return id;
@@ -72,6 +75,11 @@ const generateDOM = (expense) => {
   const amountEl = document.createElement("p");
   const descriptionEl = document.createElement("p");
 
+  // add classes to generated tags
+  expenseEl.classList.add("expense-a-tag");
+  amountEl.classList.add("expense-p-tag");
+  descriptionEl.classList.add("expense-p-tag");
+
   // setup the expense amount text
   if (expense.amount.length > 0) {
     amountEl.textContent = expense.amount;
@@ -99,27 +107,42 @@ const generateDOM = (expense) => {
 
 // render application expenses
 const renderExpense = (uniqueToken) => {
-  let expensesEl;
-  if (uniqueToken === "oianfia-993201") {
-    expensesEl = document.querySelector("#expenses");
-  } else if (uniqueToken === "fijfewn0-2nionf") {
-    expensesEl = document.querySelector("#expensesJ");
+  let expensesElDavid;
+  let expensesElJustin;
+  if (uniqueToken) {
+    expensesElDavid = document.querySelector("#expenses");
+    expensesElJustin = document.querySelector("#expensesJ");
   } else {
     alert("wrong password");
   }
 
   const expenses = getExpenses();
 
-  if (expenses.length > 0) {
-    expenses.forEach((expense) => {
-      const expenseEl = generateDOM(expense);
-      expensesEl.appendChild(expenseEl);
+  // sort expenses by user
+  const { justinExpenses, davidExpenses } = sortExpensesByUser();
+
+  if (davidExpenses.length > 0) {
+    davidExpenses.forEach((davidExpenses) => {
+      const expenseElDavid = generateDOM(davidExpenses);
+
+      expensesElDavid.appendChild(expenseElDavid);
     });
   } else {
     const emptyMessage = document.createElement("p");
     emptyMessage.textContent = "No expenses to show";
     emptyMessage.classList.add("empty-message");
-    expensesEl.appendChild(emptyMessage);
+    expensesElDavid.appendChild(emptyMessage);
+  }
+  if (justinExpenses.length > 0) {
+    justinExpenses.forEach((justinExpenses) => {
+      const expenseElJustin = generateDOM(justinExpenses);
+      expensesElJustin.appendChild(expenseElJustin);
+    });
+  } else {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No expenses to show";
+    emptyMessage.classList.add("empty-message");
+    expensesElJustin.appendChild(emptyMessage);
   }
 };
 
@@ -138,6 +161,24 @@ const initializedEditPage = (id) => {
   descriptionEl.value = expense.description;
 };
 
+// format currency
+const formatCurr = (v) => {
+  const fmtCurr = new Intl.NumberFormat("ko-KR", {
+    style: "currency",
+    currency: "KRW",
+  });
+  return fmtCurr.format(v);
+};
+
+const sortExpensesByUser = () => {
+  const o = { davidExpenses: [], justinExpenses: [] };
+  expenses.forEach((e) => {
+    if (e.user === "david") {
+      o.davidExpenses.push(e);
+    } else o.justinExpenses.push(e);
+  });
+  return o;
+};
 //////////////////////////////////////////////////////////
 export {
   loadExpenses,
@@ -149,4 +190,5 @@ export {
   renderExpense,
   generateDOM,
   initializedEditPage,
+  formatCurr,
 };

@@ -40,7 +40,7 @@ submitD.addEventListener("click", (e) => {
   if (checkboxCheckedD && passwordValueD.toLowerCase() === "123") {
     localStorage.setItem("user", "david");
     location.assign(`render.html`);
-  }
+  } else alert("incorrect password, sucka or checkbox, no?");
 });
 
 // Submit Functionality --- Justin
@@ -48,5 +48,5 @@ submitJ.addEventListener("click", (e) => {
   if (checkboxCheckedJ && passwordValueJ.toLowerCase() === "321") {
     localStorage.setItem("user", "justin");
     location.assign(`render.html`);
-  }
+  } else alert("incorrect password, sucka or checkbox, no?");
 });

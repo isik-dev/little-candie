@@ -111,9 +111,17 @@ const renderExpense = (uniqueToken) => {
   let expensesElJustin;
   if (uniqueToken) {
     expensesElDavid = document.querySelector("#expenses");
+
     expensesElJustin = document.querySelector("#expensesJ");
   } else {
     alert("wrong password");
+  }
+
+  // Depending on the user id enable/disable click on expense divs
+  if (uniqueToken === "david") {
+    expensesElJustin.style.pointerEvents = "none";
+  } else if (uniqueToken === "justin") {
+    expensesElDavid.style.pointerEvents = "none";
   }
 
   const expenses = getExpenses();

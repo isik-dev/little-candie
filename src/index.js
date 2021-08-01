@@ -1,4 +1,4 @@
-import { renderTotInd, reconciliation } from "./functions";
+import { renderTotInd, reconciliation, formatCurr } from "./functions";
 
 console.log("index.js is runnig");
 // querySelectors for index.html
@@ -57,7 +57,7 @@ submitJ.addEventListener("click", (e) => {
 const davidTotExp = renderTotInd("david");
 const justinTotExp = renderTotInd("justin");
 
-totalD.textContent = `₩ ${davidTotExp}`;
-totalJ.textContent = `₩ ${justinTotExp}`;
+totalD.textContent = `${formatCurr(davidTotExp)}`;
+totalJ.textContent = `${formatCurr(justinTotExp)}`;
 
 reconciliation();

@@ -102,7 +102,7 @@ const generateDOM = (expense) => {
 
   // setup the expense amount text
   if (expense.amount.length > 0) {
-    amountEl.textContent = `₩${expense.amount}`;
+    amountEl.textContent = `${formatCurr(expense.amount)}`;
   } else {
     amountEl.textContent = "Amount Not Given";
   }
@@ -220,6 +220,20 @@ const renderTotInd = (userToken) => {
   return result;
 };
 
+// format currency
+const formatCurr = (v) => {
+  const fmtCurr = new Intl.NumberFormat("ko-KR", {
+    style: "currency",
+    currency: "KRW",
+  });
+  return fmtCurr.format(v);
+};
+
+// Reconciliation
+const reconciliation = () => {
+  localStorage.setItem("reset", false);
+};
+
 //////////////////////////////////////////////////////////
 export {
   loadExpenses,
@@ -232,5 +246,6 @@ export {
   generateDOM,
   initializedEditPage,
   renderTotInd,
+  formatCurr,
   reconciliation,
 };

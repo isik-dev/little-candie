@@ -220,11 +220,6 @@ const renderTotInd = (userToken) => {
   return result;
 };
 
-// Reconciliation
-const reconciliation = () => {
-  localStorage.setItem("reset", false);
-};
-
 //////////////////////////////////////////////////////////
 export {
   loadExpenses,

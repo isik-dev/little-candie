@@ -220,6 +220,11 @@ const renderTotInd = (userToken) => {
   return result;
 };
 
+// Reconciliation
+const reconciliation = () => {
+  localStorage.setItem("reset", false);
+};
+
 //////////////////////////////////////////////////////////
 export {
   loadExpenses,
@@ -232,4 +237,5 @@ export {
   generateDOM,
   initializedEditPage,
   renderTotInd,
+  reconciliation,
 };

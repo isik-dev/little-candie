@@ -1,4 +1,4 @@
-import { renderTotInd } from "./functions";
+import { renderTotInd, reconciliation } from "./functions";
 
 console.log("index.js is runnig");
 // querySelectors for index.html
@@ -53,9 +53,11 @@ submitJ.addEventListener("click", (e) => {
   } else alert("incorrect password, sucka or checkbox, no?");
 });
 
-// renderTotInd
+// renderTotInd --- both Justin and David
 const davidTotExp = renderTotInd("david");
 const justinTotExp = renderTotInd("justin");
 
 totalD.textContent = `₩ ${davidTotExp}`;
 totalJ.textContent = `₩ ${justinTotExp}`;
+
+reconciliation();

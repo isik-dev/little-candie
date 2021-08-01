@@ -2,7 +2,6 @@ import {
   updateExpenses,
   removeExpense,
   initializedEditPage,
-  formatCurr,
 } from "./functions";
 
 // Query selectors from my edit.html
@@ -21,7 +20,7 @@ initializedEditPage(noteID);
 // appending the amount property of the expense object
 amountElement.addEventListener("input", (e) => {
   updateExpenses(noteID, {
-    amount: formatCurr(e.target.value),
+    amount: e.target.value,
   });
 });
 

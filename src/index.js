@@ -1,4 +1,4 @@
-import { createExpense } from "./functions";
+import { renderTotInd } from "./functions";
 
 console.log("index.js is runnig");
 // querySelectors for index.html
@@ -8,6 +8,8 @@ const passwordD = document.querySelector("#passwordD");
 const passwordJ = document.querySelector("#passwordJ");
 const submitD = document.querySelector("#submitD");
 const submitJ = document.querySelector("#submitJ");
+const totalD = document.querySelector("#totalD");
+const totalJ = document.querySelector("#totalJ");
 
 // Checkbox Functionality --- David
 let checkboxCheckedD;
@@ -50,3 +52,10 @@ submitJ.addEventListener("click", (e) => {
     location.assign(`render.html`);
   } else alert("incorrect password, sucka or checkbox, no?");
 });
+
+// renderTotInd
+const davidTotExp = renderTotInd("david");
+const justinTotExp = renderTotInd("justin");
+
+totalD.textContent = `₩ ${davidTotExp}`;
+totalJ.textContent = `₩ ${justinTotExp}`;

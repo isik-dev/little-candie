@@ -82,7 +82,7 @@ const generateDOM = (expense) => {
 
   // setup the expense amount text
   if (expense.amount.length > 0) {
-    amountEl.textContent = expense.amount;
+    amountEl.textContent = `₩${expense.amount}`;
   } else {
     amountEl.textContent = "Amount Not Given";
   }
@@ -169,15 +169,6 @@ const initializedEditPage = (id) => {
   descriptionEl.value = expense.description;
 };
 
-// format currency
-const formatCurr = (v) => {
-  const fmtCurr = new Intl.NumberFormat("ko-KR", {
-    style: "currency",
-    currency: "KRW",
-  });
-  return fmtCurr.format(v);
-};
-
 const sortExpensesByUser = () => {
   const o = { davidExpenses: [], justinExpenses: [] };
   expenses.forEach((e) => {
@@ -187,6 +178,28 @@ const sortExpensesByUser = () => {
   });
   return o;
 };
+
+// renderTotInd: a function for index.html page to sort, append and render total individual expenses
+
+const renderTotInd = (userToken) => {
+  const totalExpense = getExpenses();
+  let result;
+  const sortTotalExpenses = (totalExpense) => {
+    let indExp = 0;
+    totalExpense.forEach((expense) => {
+      if (expense.user === userToken) {
+        indExp += parseInt(expense.amount);
+      } else if (expense.user === userToken) {
+        indExp += parseInt(expense.amount);
+      }
+    });
+    return indExp;
+  };
+
+  result = sortTotalExpenses(totalExpense);
+  return result;
+};
+
 //////////////////////////////////////////////////////////
 export {
   loadExpenses,
@@ -198,5 +211,5 @@ export {
   renderExpense,
   generateDOM,
   initializedEditPage,
-  formatCurr,
+  renderTotInd,
 };

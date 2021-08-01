@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 
 // generate an empty expenses array
 let expenses = [];
@@ -24,6 +25,7 @@ const getExpenses = () => expenses;
 // push a new object into the expenses array
 const createExpense = () => {
   const id = uuidv4();
+  const timestamp = moment().valueOf();
   const getUser = localStorage.getItem("user");
   console.log("getUser", getUser);
   expenses.push({
@@ -31,9 +33,25 @@ const createExpense = () => {
     amount: "",
     description: "",
     user: getUser,
+    createdAt: timestamp,
+    updatedAt: timestamp,
   });
   saveExpenses();
   return id;
+};
+
+// getSortedExpenses: sort expenses by latest
+const getSortedExpenses = () => {
+  const expenses = getExpenses();
+  return expenses.sort((a, b) => {
+    if (a.updatedAt > b.updatedAt) {
+      return -1;
+    } else if (a.updatedAt < b.updatedAt) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 };
 
 // update function for an individual expense
@@ -46,10 +64,12 @@ const updateExpenses = (id, updates) => {
 
   if (typeof updates.amount === "string") {
     expense.amount = updates.amount;
+    expense.updatedAt = moment().valueOf();
   }
 
   if (typeof updates.description === "string") {
     expense.description = updates.description;
+    expense.updatedAt = moment().valueOf();
   }
 
   saveExpenses();
@@ -124,7 +144,7 @@ const renderExpense = (uniqueToken) => {
     expensesElDavid.style.pointerEvents = "none";
   }
 
-  const expenses = getExpenses();
+  const expenses = getSortedExpenses();
 
   // sort expenses by user
   const { justinExpenses, davidExpenses } = sortExpensesByUser();

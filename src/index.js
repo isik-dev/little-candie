@@ -1,4 +1,11 @@
-import { renderTotInd, reconciliation, formatCurr } from "./functions";
+import {
+  renderTotInd,
+  formatCurr,
+  renderSession,
+  getSession,
+  saveSession,
+  getDifference,
+} from "./functions";
 
 console.log("index.js is runnig");
 // querySelectors for index.html
@@ -10,6 +17,11 @@ const submitD = document.querySelector("#submitD");
 const submitJ = document.querySelector("#submitJ");
 const totalD = document.querySelector("#totalD");
 const totalJ = document.querySelector("#totalJ");
+const differenceD = document.querySelector("#differenceD");
+const differenceJ = document.querySelector("#differenceJ");
+
+// render current session
+renderSession();
 
 // Checkbox Functionality --- David
 let checkboxCheckedD;
@@ -37,7 +49,7 @@ passwordJ.addEventListener("change", (e) => {
   passwordValueJ = e.target.value;
 });
 
-// Submit Button Functionality --- Justin
+// Submit Button Functionality --- David
 submitD.addEventListener("click", (e) => {
   if (checkboxCheckedD && passwordValueD.toLowerCase() === "123") {
     localStorage.setItem("user", "david");
@@ -60,4 +72,19 @@ const justinTotExp = renderTotInd("justin");
 totalD.textContent = `${formatCurr(davidTotExp)}`;
 totalJ.textContent = `${formatCurr(justinTotExp)}`;
 
-reconciliation();
+// renderDifference --- both Justin and David
+
+const difference = getDifference();
+
+if (davidTotExp > justinTotExp) {
+  differenceD.textContent = `${formatCurr(difference)}`;
+  differenceJ.textContent = `- ${formatCurr(difference)}`;
+} else if (davidTotExp < justinTotExp) {
+  differenceJ.textContent = `${formatCurr(difference)}`;
+  differenceD.textContent = `- ${formatCurr(difference)}`;
+} else {
+  differenceD.textContent = `${formatCurr(difference)}`;
+  differenceJ.textContent = `${formatCurr(difference)}`;
+}
+
+console.log(difference);

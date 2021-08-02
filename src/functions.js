@@ -1,6 +1,59 @@
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 
+//////////////////// ------------ Everything related to Session ---------- ////////////////////////
+
+// generate an empty session object
+let session = {};
+
+// load latest session from the localStorage
+const loadSession = () => {
+  const sessionJSON = localStorage.getItem("session");
+  try {
+    return sessionJSON ? JSON.parse(sessionJSON) : {};
+  } catch (e) {
+    return {};
+  }
+};
+
+// save session into the localStorage
+const saveSession = () => {
+  localStorage.setItem("session", JSON.stringify(session));
+};
+
+// expose fields from session
+const getSession = () => session;
+
+// create a new session upon reconciling both balances
+const createSession = () => {
+  const id = uuidv4();
+  session.sessionID = id;
+  session.justinComplete = false;
+  session.davidComplete = false;
+  session.sessionComplete = false;
+  saveSession();
+};
+
+// update session
+const updateSession = () => {
+  session = createSession();
+};
+
+// renderSession: it will always render us the latest session
+
+const renderSession = () => {
+  const session = getSession();
+  if (session.sessionID) {
+    console.log("you are in the current session");
+  } else {
+    updateSession();
+  }
+};
+session = loadSession();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////-----------Everything related to Expenses Array------------////////////////////
 // generate an empty expenses array
 let expenses = [];
 
@@ -26,6 +79,7 @@ const getExpenses = () => expenses;
 const createExpense = () => {
   const id = uuidv4();
   const timestamp = moment().valueOf();
+  const currentSessionID = session.sessionID;
   const getUser = localStorage.getItem("user");
   console.log("getUser", getUser);
   expenses.push({
@@ -35,6 +89,7 @@ const createExpense = () => {
     user: getUser,
     createdAt: timestamp,
     updatedAt: timestamp,
+    sessionID: currentSessionID,
   });
   saveExpenses();
   return id;
@@ -87,7 +142,7 @@ const removeExpense = (id) => {
 
 expenses = loadExpenses();
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // generate the DOM structure for each expense
 const generateDOM = (expense) => {
@@ -229,9 +284,36 @@ const formatCurr = (v) => {
   return fmtCurr.format(v);
 };
 
-// Reconciliation
-const reconciliation = () => {
-  localStorage.setItem("reset", false);
+// getDifference: calculates the total difference for a current session
+const getDifference = () => {
+  const currentSession = getSession();
+  const expenses = getExpenses();
+  let davidTotExp = 0;
+  let justinTotExp = 0;
+
+  expenses.forEach((expense) => {
+    if (expense.sessionID === currentSession.sessionID) {
+      if (expense.user === "david") {
+        davidTotExp += parseInt(expense.amount);
+      } else if (expense.user === "justin") {
+        justinTotExp += parseInt(expense.amount);
+      } else {
+        console.log("error inside getDifference function");
+      }
+    }
+  });
+
+  let difference = 0;
+
+  if (davidTotExp > justinTotExp) {
+    difference = davidTotExp - justinTotExp;
+  } else if (davidTotExp < justinTotExp) {
+    difference = justinTotExp - davidTotExp;
+  } else {
+    difference = 0;
+  }
+
+  return difference;
 };
 
 //////////////////////////////////////////////////////////
@@ -247,5 +329,10 @@ export {
   initializedEditPage,
   renderTotInd,
   formatCurr,
-  reconciliation,
+  createSession,
+  updateSession,
+  getSession,
+  renderSession,
+  saveSession,
+  getDifference,
 };

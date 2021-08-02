@@ -56,3 +56,16 @@ body {
 .index-page-columm:hover {
   box-shadow: 0 24px 36px rgba(0, 0, 0, 0.22);
 }
+
+#renderaddJ,
+#renderaddD {
+  /* border: 2px solid green; */
+  /* border-radius: 5%; */
+  border-style: none;
+  transition: 00.7s;
+}
+
+#renderaddJ:hover,
+#renderaddD:hover {
+  background-color: aqua;
+}

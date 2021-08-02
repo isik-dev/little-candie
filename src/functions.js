@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 
+/////////////////////-----------Everything related to Expenses Array------------////////////////////
 // generate an empty expenses array
 let expenses = [];
 
@@ -27,6 +28,7 @@ const createExpense = () => {
   getSession();
   const id = uuidv4();
   const timestamp = moment().valueOf();
+  const currentSessionID = session.sessionID;
   const getUser = localStorage.getItem("user");
   console.log("getUser", getUser);
   expenses.push({
@@ -37,6 +39,7 @@ const createExpense = () => {
     user: getUser,
     createdAt: timestamp,
     updatedAt: timestamp,
+    sessionID: currentSessionID,
   });
   saveExpenses();
   return id;
@@ -89,7 +92,7 @@ const removeExpense = (id) => {
 
 expenses = loadExpenses();
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // generate the DOM structure for each expense
 const generateDOM = (expense) => {

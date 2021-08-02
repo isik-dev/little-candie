@@ -45,7 +45,7 @@ passwordJ.addEventListener("change", (e) => {
   passwordValueJ = e.target.value;
 });
 
-// Submit Button Functionality --- Justin
+// Submit Button Functionality --- David
 submitD.addEventListener("click", (e) => {
   if (checkboxCheckedD && passwordValueD.toLowerCase() === "123") {
     localStorage.setItem("user", "david");

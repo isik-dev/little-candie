@@ -1,6 +1,10 @@
-import { renderTotInd, reconciliation, formatCurr } from "./functions";
+import {
+  calculateDifference,
+  formatCurr,
+  getCurrentTotal,
+  renderCurrentSession,
+} from "./functions";
 
-console.log("index.js is runnig");
 // querySelectors for index.html
 const checkedD = document.querySelector("#checkboxD");
 const checkedJ = document.querySelector("#checkboxJ");
@@ -10,6 +14,10 @@ const submitD = document.querySelector("#submitD");
 const submitJ = document.querySelector("#submitJ");
 const totalD = document.querySelector("#totalD");
 const totalJ = document.querySelector("#totalJ");
+const differenceD = document.querySelector("#differenceD");
+const differenceJ = document.querySelector("#differenceJ");
+
+renderCurrentSession();
 
 // Checkbox Functionality --- David
 let checkboxCheckedD;
@@ -53,11 +61,18 @@ submitJ.addEventListener("click", (e) => {
   } else alert("incorrect password, sucka or checkbox, no?");
 });
 
-// renderTotInd --- both Justin and David
-const davidTotExp = renderTotInd("david");
-const justinTotExp = renderTotInd("justin");
+// getCurrentTotal --- both David and Justin
+const davidTotExp = getCurrentTotal("david");
+const justinTotExp = getCurrentTotal("justin");
 
+// renderTotInd --- both Justin and David
 totalD.textContent = `${formatCurr(davidTotExp)}`;
 totalJ.textContent = `${formatCurr(justinTotExp)}`;
 
-reconciliation();
+// renderTotDiff --- both Justin and David
+const difference = calculateDifference(davidTotExp, justinTotExp);
+const dOperationSign = davidTotExp < justinTotExp ? "-" : "";
+const jOperationSign = justinTotExp < davidTotExp ? "-" : "";
+
+differenceD.textContent = `${dOperationSign} ${formatCurr(difference)}`;
+differenceJ.textContent = `${jOperationSign} ${formatCurr(difference)}`;

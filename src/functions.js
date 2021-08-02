@@ -24,11 +24,13 @@ const getExpenses = () => expenses;
 
 // push a new object into the expenses array
 const createExpense = () => {
+  getSession();
   const id = uuidv4();
   const timestamp = moment().valueOf();
   const getUser = localStorage.getItem("user");
   console.log("getUser", getUser);
   expenses.push({
+    sessionID: session.sessionID,
     id: id,
     amount: "",
     description: "",
@@ -199,25 +201,22 @@ const sortExpensesByUser = () => {
   return o;
 };
 
-// renderTotInd: a function for index.html page to sort, append and render total individual expenses
+// getCurrentTotal: checks the current session id and for all expenses that include current session id for a given argument {user} returns total.
 
-const renderTotInd = (userToken) => {
-  const totalExpense = getExpenses();
-  let result;
-  const sortTotalExpenses = (totalExpense) => {
-    let indExp = 0;
-    totalExpense.forEach((expense) => {
-      if (expense.user === userToken) {
-        indExp += parseInt(expense.amount);
-      } else if (expense.user === userToken) {
-        indExp += parseInt(expense.amount);
-      }
-    });
-    return indExp;
-  };
+const getCurrentTotal = (userToken) => {
+  const currentSessionID = getSession().sessionID;
+  console.log(currentSessionID);
+  const expenses = getExpenses();
+  let totalUserExpense = 0;
 
-  result = sortTotalExpenses(totalExpense);
-  return result;
+  expenses.forEach((expense) => {
+    if (expense.sessionID === currentSessionID && expense.user === userToken) {
+      totalUserExpense += parseInt(expense.amount);
+    } else {
+      return totalUserExpense;
+    }
+  });
+  return totalUserExpense;
 };
 
 // format currency
@@ -229,9 +228,84 @@ const formatCurr = (v) => {
   return fmtCurr.format(v);
 };
 
-// Reconciliation
-const reconciliation = () => {
-  localStorage.setItem("reset", false);
+/////////////////////////////////////////////// ------- Session Functions ------- ////////////////////////////////////////////////////////////
+
+// create a session
+let session = {};
+
+// getSession: exposes a current session object
+const getSession = () => session;
+
+// saveSession: saves the given current session into the localStorage
+const saveSession = () => [
+  localStorage.setItem("session", JSON.stringify(session)),
+];
+
+// createSession: create a new session object
+const createSession = () => {
+  const ID = uuidv4();
+  session.sessionID = ID;
+  session.davidComplete = false;
+  session.justinComplete = false;
+  session.sessionComplete = false;
+  saveSession();
+  return session;
+};
+
+// renderCurrentSession: checks if there is an existing session in the local storage. If yes, pass. If no, calls createSession
+const renderCurrentSession = () => {
+  const sessionJSON = localStorage.getItem("session");
+  try {
+    return sessionJSON ? JSON.parse(sessionJSON) : createSession();
+  } catch (e) {
+    createSession();
+  }
+};
+
+session = renderCurrentSession();
+
+///////////////////////////////////////////// --------- Difference Functions --------- ///////////////////////////////////////////////////////////////
+// calculateDifference
+const calculateDifference = (a, b) => {
+  if (a > b) {
+    return a - b;
+  } else if (a < b) {
+    return b - a;
+  } else {
+    return 0;
+  }
+};
+
+/////////////////////////////////////////// ----------- Reconciliation Functions ------------- //////////////////////////////////////////////////////////////
+
+// reconcileBalanceD: reconciles david's balance
+const reconcileBalanceD = () => {
+  const currentSession = getSession();
+  console.log(currentSession);
+  if (!currentSession.justinComplete) {
+    currentSession.davidComplete = true;
+    saveSession();
+  } else if (currentSession.justinComplete) {
+    currentSession.davidComplete = true;
+    currentSession.sessionComplete = true;
+    saveSession();
+    createSession();
+  }
+};
+
+// reconcileBalanceJ: reconciles justin's balance
+const reconcileBalanceJ = () => {
+  const currentSession = getSession();
+  console.log(currentSession);
+  if (!currentSession.davidComplete) {
+    currentSession.justinComplete = true;
+    saveSession();
+  } else if (currentSession.davidComplete) {
+    currentSession.justinComplete = true;
+    currentSession.sessionComplete = true;
+    saveSession();
+    createSession();
+  }
 };
 
 //////////////////////////////////////////////////////////
@@ -245,7 +319,12 @@ export {
   renderExpense,
   generateDOM,
   initializedEditPage,
-  renderTotInd,
   formatCurr,
-  reconciliation,
+  createSession,
+  getSession,
+  getCurrentTotal,
+  renderCurrentSession,
+  calculateDifference,
+  reconcileBalanceD,
+  reconcileBalanceJ,
 };

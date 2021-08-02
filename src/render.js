@@ -11,9 +11,6 @@ import {
 // Getting uniqueToken
 const uniqueToken = localStorage.getItem("user");
 
-// render current session
-renderSession();
-
 renderExpense(uniqueToken);
 console.log("you are in the render page");
 

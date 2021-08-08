@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
-import moment from "moment";
+const uuidv4 = require("uuid");
+const moment = require("moment");
 
 /////////////////////-----------Everything related to Expenses Array------------////////////////////
 // generate an empty expenses array
@@ -312,7 +312,8 @@ const reconcileBalanceJ = () => {
 };
 
 //////////////////////////////////////////////////////////
-export {
+
+module.exports = {
   loadExpenses,
   saveExpenses,
   getExpenses,

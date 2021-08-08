@@ -1,8 +1,7 @@
-import {
-  updateExpenses,
-  removeExpense,
-  initializedEditPage,
-} from "./functions";
+const myfuncs = require("./functions");
+const updateExpenses = myfuncs.updateExpenses;
+const removeExpense = myfuncs.removeExpense;
+const initializedEditPage = myfuncs.initializedEditPage;
 
 // Query selectors from my edit.html
 const amountElement = document.querySelector("#amountD");

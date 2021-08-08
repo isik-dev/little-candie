@@ -1,9 +1,8 @@
-import {
-  calculateDifference,
-  formatCurr,
-  getCurrentTotal,
-  renderCurrentSession,
-} from "./functions";
+const myfuncs = require("./functions");
+const calculateDifference = myfuncs.calculateDifference;
+const formatCurr = myfuncs.formatCurr;
+const getCurrentTotal = myfuncs.getCurrentTotal;
+const renderCurrentSession = myfuncs.renderCurrentSession;
 
 // querySelectors for index.html
 const checkedD = document.querySelector("#checkboxD");

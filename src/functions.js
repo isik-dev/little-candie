@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
-import moment from "moment";
+const uuid = require("uuid");
+const moment = require("moment");
 
 /////////////////////-----------Everything related to Expenses Array------------////////////////////
 // generate an empty expenses array
@@ -26,7 +26,7 @@ const getExpenses = () => expenses;
 // push a new object into the expenses array
 const createExpense = () => {
   getSession();
-  const id = uuidv4();
+  const id = uuid.v4();
   const timestamp = moment().valueOf();
   const currentSessionID = session.sessionID;
   const getUser = localStorage.getItem("user");
@@ -246,7 +246,7 @@ const saveSession = () => [
 
 // createSession: create a new session object
 const createSession = () => {
-  const ID = uuidv4();
+  const ID = uuid.v4();
   session.sessionID = ID;
   session.davidComplete = false;
   session.justinComplete = false;
@@ -311,8 +311,8 @@ const reconcileBalanceJ = () => {
   }
 };
 
-//////////////////////////////////////////////////////////
-export {
+/////////////////////////////////////////////////////////
+module.exports = {
   loadExpenses,
   saveExpenses,
   getExpenses,

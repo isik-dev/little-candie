@@ -15,9 +15,40 @@ const loadExpenses = () => {
   }
 };
 
+// load data from the database
+const loadExpensesDB = async () => {
+  const response = await fetch("http://localhost:3080/getexp", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  try {
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.log("err", error);
+  }
+};
+
 // save expenses into the local storage
 const saveExpenses = () => {
   localStorage.setItem("expenses", JSON.stringify(expenses));
+};
+
+// save expenses into the database
+const saveExpensesDB = async () => {
+  const rawResponse = await fetch("http://localhost:3080/getexp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(expenses),
+  });
+  const content = await rawResponse.json();
+
+  console.log(content);
 };
 
 // expose notes from module
@@ -311,6 +342,42 @@ const reconcileBalanceJ = () => {
   }
 };
 
+//////////////////////////////////////////////////////////////// -------------- API Requests -------------- ///////////////////////////////////////////////////////////////////////////////
+
+// GET david's password from the database
+const getPasswordD = async () => {
+  const response = await fetch("http://localhost:3080/loginpageget", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  try {
+    const result = await response.json();
+    console.log(result);
+    return result[0].passwordD;
+  } catch (error) {
+    console.log("err", error);
+  }
+};
+
+// GET justin's password from the database
+const getPasswordJ = async () => {
+  const response = await fetch("http://localhost:3080/loginpageget", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  try {
+    const result = await response.json();
+    console.log(result);
+    return result[0].passwordJ;
+  } catch (error) {
+    console.log("err", error);
+  }
+};
+
 /////////////////////////////////////////////////////////
 module.exports = {
   loadExpenses,
@@ -330,4 +397,8 @@ module.exports = {
   calculateDifference,
   reconcileBalanceD,
   reconcileBalanceJ,
+  getPasswordD,
+  getPasswordJ,
+  saveExpensesDB,
+  loadExpensesDB,
 };

@@ -3,6 +3,8 @@ const calculateDifference = myfuncs.calculateDifference;
 const formatCurr = myfuncs.formatCurr;
 const getCurrentTotal = myfuncs.getCurrentTotal;
 const renderCurrentSession = myfuncs.renderCurrentSession;
+const getPasswordD = myfuncs.getPasswordD;
+const getPasswordJ = myfuncs.getPasswordJ;
 
 // querySelectors for index.html
 const checkedD = document.querySelector("#checkboxD");
@@ -45,16 +47,18 @@ passwordJ.addEventListener("change", (e) => {
 });
 
 // Submit Button Functionality --- David
-submitD.addEventListener("click", (e) => {
-  if (checkboxCheckedD && passwordValueD.toLowerCase() === "123") {
+submitD.addEventListener("click", async (e) => {
+  const pass = await getPasswordD();
+  if (checkboxCheckedD && passwordValueD.toLowerCase() === pass) {
     localStorage.setItem("user", "david");
     location.assign(`render.html`);
   } else alert("incorrect password, sucka or checkbox, no?");
 });
 
 // Submit Functionality --- Justin
-submitJ.addEventListener("click", (e) => {
-  if (checkboxCheckedJ && passwordValueJ.toLowerCase() === "321") {
+submitJ.addEventListener("click", async (e) => {
+  const pass = await getPasswordJ();
+  if (checkboxCheckedJ && passwordValueJ.toLowerCase() === pass) {
     localStorage.setItem("user", "justin");
     location.assign(`render.html`);
   } else alert("incorrect password, sucka or checkbox, no?");

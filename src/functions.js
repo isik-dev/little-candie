@@ -298,6 +298,69 @@ const renderCurrentSession = () => {
 
 session = renderCurrentSession();
 
+///////////////////////////////////////////// ------------- Session / MongoDB ------------ ///////////////////////////////////////////////////////////////////
+
+// initialize the session
+let sessionDB = {};
+
+// getSessionDB: exposes a current session object
+const getSessionDB = () => sessionDB;
+
+// saveSessionDB: takes the current session and sends it to the backend
+const saveSessionDB = async () => {
+  await fetch("http://localhost:3080/session/saveSessionDB", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(sessionDB),
+  });
+};
+
+// saveSessionDB();
+
+// createSessionDB: does not take argument, just sends a request to the backend
+const createSessionDB = async () => {
+  const result = await fetch("http://localhost:3080/session/createSessionDB", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      davidComplete: false,
+      justinComplete: false,
+      sessionComplete: false,
+    }),
+  });
+  const data = await result.json();
+  return data;
+};
+
+// createSessionDB();
+
+// renderCurrentSessionDB: sends a get request to the DB and brings the latest session from there
+const renderCurrentSessionDB = async () => {
+  const result = await fetch(
+    "http://localhost:3080/session/renderCurrentSessionDB",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        davidComplete: false,
+        justinComplete: false,
+        sessionComplete: false,
+      }),
+    }
+  );
+  const sessionDB = await result.json();
+  return sessionDB;
+};
+
+renderCurrentSessionDB().then((session) => {
+  sessionDB = session;
+  console.log(sessionDB);
+});
+
 ///////////////////////////////////////////// --------- Difference Functions --------- ///////////////////////////////////////////////////////////////
 // calculateDifference
 const calculateDifference = (a, b) => {

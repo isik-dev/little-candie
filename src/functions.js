@@ -1,5 +1,7 @@
 const uuid = require("uuid");
 const moment = require("moment");
+const apifuncs = require("./api-functions");
+const renderCurrentSessionDB = apifuncs.renderCurrentSessionDB;
 
 /////////////////////-----------Everything related to Expenses Array------------////////////////////
 // generate an empty expenses array
@@ -15,66 +17,39 @@ const loadExpenses = () => {
   }
 };
 
-// load data from the database
-const loadExpensesDB = async () => {
-  const response = await fetch("http://localhost:3080/getexp", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  try {
-    const result = await response.json();
-    console.log(result);
-    return result;
-  } catch (error) {
-    console.log("err", error);
-  }
-};
-
 // save expenses into the local storage
 const saveExpenses = () => {
   localStorage.setItem("expenses", JSON.stringify(expenses));
 };
 
-// save expenses into the database
-const saveExpensesDB = async () => {
-  const rawResponse = await fetch("http://localhost:3080/getexp", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(expenses),
-  });
-  const content = await rawResponse.json();
-
-  console.log(content);
-};
-
 // expose notes from module
 const getExpenses = () => expenses;
 
+//////////////////////////////////////////////////////////////////////////
 // push a new object into the expenses array
-const createExpense = () => {
+const createExpense = async () => {
   getSession();
+  const sessionDB = await renderCurrentSessionDB(); // new line of code
+  console.log(sessionDB.sessionComplete);
   const id = uuid.v4();
   const timestamp = moment().valueOf();
-  const currentSessionID = session.sessionID;
+  const currentSessionID = sessionDB._id;
   const getUser = localStorage.getItem("user");
   console.log("getUser", getUser);
   expenses.push({
-    sessionID: session.sessionID,
+    sessionID: currentSessionID,
     id: id,
     amount: "",
     description: "",
     user: getUser,
     createdAt: timestamp,
     updatedAt: timestamp,
-    sessionID: currentSessionID,
   });
   saveExpenses();
   return id;
 };
+
+//////////////////////////////////////////////////////////////////////////
 
 // getSortedExpenses: sort expenses by latest
 const getSortedExpenses = () => {
@@ -298,69 +273,6 @@ const renderCurrentSession = () => {
 
 session = renderCurrentSession();
 
-///////////////////////////////////////////// ------------- Session / MongoDB ------------ ///////////////////////////////////////////////////////////////////
-
-// initialize the session
-let sessionDB = {};
-
-// getSessionDB: exposes a current session object
-const getSessionDB = () => sessionDB;
-
-// saveSessionDB: takes the current session and sends it to the backend
-const saveSessionDB = async () => {
-  await fetch("http://localhost:3080/session/saveSessionDB", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(sessionDB),
-  });
-};
-
-// saveSessionDB();
-
-// createSessionDB: does not take argument, just sends a request to the backend
-const createSessionDB = async () => {
-  const result = await fetch("http://localhost:3080/session/createSessionDB", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      davidComplete: false,
-      justinComplete: false,
-      sessionComplete: false,
-    }),
-  });
-  const data = await result.json();
-  return data;
-};
-
-// createSessionDB();
-
-// renderCurrentSessionDB: sends a get request to the DB and brings the latest session from there
-const renderCurrentSessionDB = async () => {
-  const result = await fetch(
-    "http://localhost:3080/session/renderCurrentSessionDB",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        davidComplete: false,
-        justinComplete: false,
-        sessionComplete: false,
-      }),
-    }
-  );
-  const sessionDB = await result.json();
-  return sessionDB;
-};
-
-renderCurrentSessionDB().then((session) => {
-  sessionDB = session;
-  console.log(sessionDB);
-});
-
 ///////////////////////////////////////////// --------- Difference Functions --------- ///////////////////////////////////////////////////////////////
 // calculateDifference
 const calculateDifference = (a, b) => {
@@ -405,42 +317,6 @@ const reconcileBalanceJ = () => {
   }
 };
 
-//////////////////////////////////////////////////////////////// -------------- API Requests -------------- ///////////////////////////////////////////////////////////////////////////////
-
-// GET david's password from the database
-const getPasswordD = async () => {
-  const response = await fetch("http://localhost:3080/loginpageget", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  try {
-    const result = await response.json();
-    console.log(result);
-    return result[0].passwordD;
-  } catch (error) {
-    console.log("err", error);
-  }
-};
-
-// GET justin's password from the database
-const getPasswordJ = async () => {
-  const response = await fetch("http://localhost:3080/loginpageget", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  try {
-    const result = await response.json();
-    console.log(result);
-    return result[0].passwordJ;
-  } catch (error) {
-    console.log("err", error);
-  }
-};
-
 /////////////////////////////////////////////////////////
 module.exports = {
   loadExpenses,
@@ -460,8 +336,4 @@ module.exports = {
   calculateDifference,
   reconcileBalanceD,
   reconcileBalanceJ,
-  getPasswordD,
-  getPasswordJ,
-  saveExpensesDB,
-  loadExpensesDB,
 };

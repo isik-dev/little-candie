@@ -43,8 +43,8 @@ if (uniqueToken === "david") {
 
   // Add Button Functionality --- David
   addElement.disabled = false;
-  addElement.addEventListener("click", (e) => {
-    const expenseID = createExpense();
+  addElement.addEventListener("click", async (e) => {
+    const expenseID = await createExpense();
     location.assign(`edit.html#${expenseID}`);
   });
 

@@ -198,4 +198,5 @@ module.exports = {
   loadExpensesDB,
   getSortedExpensesDB,
   updateExpensesDB,
+  removeExpensesDB,
 };

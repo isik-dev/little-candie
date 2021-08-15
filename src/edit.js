@@ -1,8 +1,7 @@
 const myfuncs = require("./functions");
 const apifuncs = require("./api-functions");
-const updateExpenses = myfuncs.updateExpenses;
-const removeExpense = myfuncs.removeExpense;
-const initializedEditPage = myfuncs.initializedEditPage;
+
+const removeExpensesDB = apifuncs.removeExpensesDB;
 const initializedEditPageDB = myfuncs.initializedEditPageDB;
 const updateExpensesDB = apifuncs.updateExpensesDB;
 
@@ -45,7 +44,7 @@ submitEl.addEventListener("click", (e) => {
 });
 
 // remove an object and redirect to home page
-removeElement.addEventListener("click", (e) => {
-  removeExpense(noteID);
+removeElement.addEventListener("click", async (e) => {
+  await removeExpensesDB(noteID);
   location.assign(`render.html#${uniqueToken}`);
 });

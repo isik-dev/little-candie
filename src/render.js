@@ -1,7 +1,4 @@
 const myfuncs = require("./functions");
-const createExpense = myfuncs.createExpense;
-const renderExpense = myfuncs.renderExpense;
-const getCurrentTotal = myfuncs.getCurrentTotal;
 const formatCurr = myfuncs.formatCurr;
 const calculateDifference = myfuncs.calculateDifference;
 const reconcileBalanceD = myfuncs.reconcileBalanceD;

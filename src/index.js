@@ -2,8 +2,6 @@ const myfuncs = require("./functions");
 const apifuncs = require("./api-functions");
 const calculateDifference = myfuncs.calculateDifference;
 const formatCurr = myfuncs.formatCurr;
-const getCurrentTotal = myfuncs.getCurrentTotal;
-const renderCurrentSession = myfuncs.renderCurrentSession;
 const renderCurrentSessionDB = apifuncs.renderCurrentSessionDB;
 const getPasswordD = apifuncs.getPasswordD;
 const getPasswordJ = apifuncs.getPasswordJ;
@@ -20,8 +18,6 @@ const totalD = document.querySelector("#totalD");
 const totalJ = document.querySelector("#totalJ");
 const differenceD = document.querySelector("#differenceD");
 const differenceJ = document.querySelector("#differenceJ");
-
-renderCurrentSession();
 
 // Checkbox Functionality --- David
 let checkboxCheckedD;

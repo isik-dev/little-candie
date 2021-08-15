@@ -15,31 +15,31 @@ const removeElement = document.querySelector("#removeD");
 const noteID = location.hash.substring(1);
 const uniqueToken = localStorage.getItem("user");
 
-// setting initial values if there are
-// initializedEditPage(noteID);
-
 const editP = async () => {
   await initializedEditPageDB(noteID);
 };
 
 editP();
 
+let amount;
+let description;
+
 // appending the amount property of the expense object
-amountElement.addEventListener("input", async (e) => {
-  await updateExpensesDB(noteID, {
-    amount: e.target.value,
-  });
+amountElement.addEventListener("input", (e) => {
+  amount = e.target.value;
 });
 
 // appending the description property of the expense object
-descriptionElement.addEventListener("input", async (e) => {
-  await updateExpensesDB(noteID, {
-    description: e.target.value,
-  });
+descriptionElement.addEventListener("input", (e) => {
+  description = e.target.value;
 });
 
 // redirecting to the render page when submit button is pressed
-submitEl.addEventListener("click", (e) => {
+submitEl.addEventListener("click", async (e) => {
+  await updateExpensesDB(noteID, {
+    amount: amount,
+    description: description,
+  });
   location.assign(`render.html#${uniqueToken}`);
 });
 

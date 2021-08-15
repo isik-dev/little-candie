@@ -104,8 +104,10 @@ const loadExpensesDB = async () => {
   });
   try {
     const result = await response.json();
+    console.log("sdslldlsldd", result);
     return result;
   } catch (error) {
+    localStorage.setItem("err", error.toString());
     console.log("err", error);
   }
 };
@@ -131,6 +133,7 @@ const getExpenseDB = () => expensesDB;
 // push a new object into the expenses array
 const createExpenseDB = async () => {
   const sessionDB = await renderCurrentSessionDB();
+  console.log("this is sesssionDD", sessionDB);
   const currentSessionID = sessionDB._id;
   const getUser = localStorage.getItem("user");
 
@@ -148,6 +151,7 @@ const createExpenseDB = async () => {
   });
 
   const data = await result.json();
+  console.log("this is createExpense", data);
   return data;
 };
 

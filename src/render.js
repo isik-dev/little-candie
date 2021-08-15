@@ -71,9 +71,7 @@ if (uniqueToken === "david") {
   addElementJ.disabled = false;
   addElementJ.addEventListener("click", async (e) => {
     const expenseID = await createExpenseDB();
-    if (expenseID) {
-      location.assign(`edit.html#${expenseID}`);
-    }
+    location.assign(`edit.html#${expenseID}`);
   });
 
   // Sign out Button Functionality --- Justin

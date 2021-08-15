@@ -98,14 +98,15 @@ const initializedEditPageDB = async (id) => {
   const amountEl = document.querySelector("#amountD");
   const descriptionEl = document.querySelector("#descriptionD");
   expensesDB = await loadExpensesDB();
-  const expense = expensesDB.find((expense) => expense.id === id);
+  const expense = expensesDB.find((expense) => expense._id === id);
 
   if (!expense) {
-    location.assign("/index.html");
+    // location.assign("/index.html");
+    console.log("no expense in initial func");
   }
 
-  amountEl.value = expense.amount;
-  descriptionEl.value = expense.description;
+  amountEl.value = expense.amount || "no expense.amount";
+  descriptionEl.value = expense.description || "no expense.description";
 };
 
 // sorteExpensesByUserDB function

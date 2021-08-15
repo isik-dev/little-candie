@@ -1,8 +1,9 @@
 ////////////////// -------------- API Requests -------------- ///////////////////
-
+const { url: base_url } = require("../env");
+console.log("THIS IS BASE URL", base_url);
 // GET david's password from the database
 const getPasswordD = async () => {
-  const response = await fetch("http://localhost:3080/loginpageget", {
+  const response = await fetch(`${base_url}/loginpageget`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +20,7 @@ const getPasswordD = async () => {
 
 // GET justin's password from the database
 const getPasswordJ = async () => {
-  const response = await fetch("http://localhost:3080/loginpageget", {
+  const response = await fetch(`${base_url}/loginpageget`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +45,7 @@ const getSessionDB = () => sessionDB;
 
 // saveSessionDB: takes the current session and sends it to the backend
 const saveSessionDB = async () => {
-  await fetch("http://localhost:3080/session/saveSessionDB", {
+  await fetch(`${base_url}/session/saveSessionDB`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(sessionDB),
@@ -55,7 +56,7 @@ const saveSessionDB = async () => {
 
 // createSessionDB: does not take argument, just sends a request to the backend
 const createSessionDB = async () => {
-  const result = await fetch("http://localhost:3080/session/createSessionDB", {
+  const result = await fetch(`${base_url}/session/createSessionDB`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -72,20 +73,17 @@ const createSessionDB = async () => {
 
 // renderCurrentSessionDB: sends a get request to the DB and brings the latest session from there
 const renderCurrentSessionDB = async () => {
-  const result = await fetch(
-    "http://localhost:3080/session/renderCurrentSessionDB",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        davidComplete: false,
-        justinComplete: false,
-        sessionComplete: false,
-      }),
-    }
-  );
+  const result = await fetch(`${base_url}/session/renderCurrentSessionDB`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      davidComplete: false,
+      justinComplete: false,
+      sessionComplete: false,
+    }),
+  });
   const sessionDB = await result.json();
   return sessionDB;
 };
@@ -96,7 +94,7 @@ let expensesDB = {};
 
 // load data from the database
 const loadExpensesDB = async () => {
-  const response = await fetch("http://localhost:3080/expenses/getexp", {
+  const response = await fetch(`${base_url}/expenses/getexp`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -114,7 +112,7 @@ const loadExpensesDB = async () => {
 
 // save expenses into the database
 const saveExpensesDB = async () => {
-  const rawResponse = await fetch("http://localhost:3080/getexp", {
+  const rawResponse = await fetch(`${base_url}/getexp`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -137,7 +135,7 @@ const createExpenseDB = async () => {
   const currentSessionID = sessionDB._id;
   const getUser = localStorage.getItem("user");
 
-  const result = await fetch("http://localhost:3080/expenses/createExpense", {
+  const result = await fetch(`${base_url}/expenses/createExpense`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -170,7 +168,7 @@ const getSortedExpensesDB = async () => {
 };
 
 const updateExpensesDB = async (id, updates) => {
-  const result = await fetch("http://localhost:3080/expenses/updateExp", {
+  const result = await fetch(`${base_url}/expenses/updateExp`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -183,7 +181,7 @@ const updateExpensesDB = async (id, updates) => {
 };
 
 const removeExpensesDB = (id) => {
-  const result = fetch("http://localhost:3080/expenses/removeExp", {
+  const result = fetch(`${base_url}/expenses/removeExp`, {
     method: "POST",
     header: {
       "Content-Type": "application/json",

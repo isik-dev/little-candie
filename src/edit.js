@@ -1,7 +1,10 @@
 const myfuncs = require("./functions");
+const apifuncs = require("./api-functions");
 const updateExpenses = myfuncs.updateExpenses;
 const removeExpense = myfuncs.removeExpense;
 const initializedEditPage = myfuncs.initializedEditPage;
+const initializedEditPageDB = myfuncs.initializedEditPageDB;
+const updateExpensesDB = apifuncs.updateExpensesDB;
 
 // Query selectors from my edit.html
 const amountElement = document.querySelector("#amountD");
@@ -14,18 +17,24 @@ const noteID = location.hash.substring(1);
 const uniqueToken = localStorage.getItem("user");
 
 // setting initial values if there are
-initializedEditPage(noteID);
+// initializedEditPage(noteID);
+
+const editP = async () => {
+  await initializedEditPageDB(noteID);
+};
+
+editP();
 
 // appending the amount property of the expense object
-amountElement.addEventListener("input", (e) => {
-  updateExpenses(noteID, {
+amountElement.addEventListener("input", async (e) => {
+  await updateExpensesDB(noteID, {
     amount: e.target.value,
   });
 });
 
 // appending the description property of the expense object
-descriptionElement.addEventListener("input", (e) => {
-  updateExpenses(noteID, {
+descriptionElement.addEventListener("input", async (e) => {
+  await updateExpensesDB(noteID, {
     description: e.target.value,
   });
 });

@@ -2,6 +2,8 @@ const uuid = require("uuid");
 const moment = require("moment");
 const apifuncs = require("./api-functions");
 const renderCurrentSessionDB = apifuncs.renderCurrentSessionDB;
+const loadExpensesDB = apifuncs.loadExpensesDB;
+const getSortedExpensesDB = apifuncs.getSortedExpensesDB;
 
 /////////////////////-----------Everything related to Expenses Array------------////////////////////
 // generate an empty expenses array
@@ -121,7 +123,7 @@ const generateDOM = (expense) => {
   expenseEl.appendChild(amountEl);
 
   // setup the link
-  expenseEl.setAttribute("href", `edit.html#${expense.id}`);
+  expenseEl.setAttribute("href", `edit.html#${expense._id}`);
   expenseEl.classList.add("list-item");
 
   // setup the description
@@ -185,12 +187,89 @@ const renderExpense = (uniqueToken) => {
   }
 };
 
+// renderExpenseDB
+// render application expenses
+const renderExpenseDB = async (uniqueToken) => {
+  let expensesElDavid;
+  let expensesElJustin;
+  if (uniqueToken) {
+    expensesElDavid = document.querySelector("#expenses");
+
+    expensesElJustin = document.querySelector("#expensesJ");
+  } else {
+    alert("wrong password");
+  }
+
+  // Depending on the user id enable/disable click on expense divs
+  if (uniqueToken === "david") {
+    expensesElJustin.style.pointerEvents = "none";
+  } else if (uniqueToken === "justin") {
+    expensesElDavid.style.pointerEvents = "none";
+  }
+
+  const expensesDB = await getSortedExpensesDB();
+
+  // sort expenses by user
+  const { justinExpenses, davidExpenses } = await sortExpensesByUserDB();
+
+  if (davidExpenses.length > 0) {
+    davidExpenses.forEach((davidExpenses) => {
+      const expenseElDavid = generateDOM(davidExpenses);
+
+      expensesElDavid.appendChild(expenseElDavid);
+    });
+  } else {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No expenses to show";
+    emptyMessage.classList.add("empty-message");
+    expensesElDavid.appendChild(emptyMessage);
+  }
+  if (justinExpenses.length > 0) {
+    justinExpenses.forEach((justinExpenses) => {
+      const expenseElJustin = generateDOM(justinExpenses);
+      expensesElJustin.appendChild(expenseElJustin);
+    });
+  } else {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No expenses to show";
+    emptyMessage.classList.add("empty-message");
+    expensesElJustin.appendChild(emptyMessage);
+  }
+};
+
+// initializedEditPageDB function
+const initializedEditPageDB = async (id) => {
+  const amountEl = document.querySelector("#amountD");
+  const descriptionEl = document.querySelector("#descriptionD");
+  expensesDB = await loadExpensesDB();
+  const expense = expensesDB.find((expense) => expense.id === id);
+
+  if (!expense) {
+    location.assign("/index.html");
+  }
+
+  amountEl.value = expense.amount;
+  descriptionEl.value = expense.description;
+};
+
+// sorteExpensesByUserDB function
+const sortExpensesByUserDB = async () => {
+  const o = { davidExpenses: [], justinExpenses: [] };
+  const expensesDB = await loadExpensesDB();
+  expensesDB.forEach((e) => {
+    if (e.user === "david") {
+      o.davidExpenses.push(e);
+    } else o.justinExpenses.push(e);
+  });
+  return o;
+};
+
 // initializedEditPage function
 const initializedEditPage = (id) => {
   const amountEl = document.querySelector("#amountD");
   const descriptionEl = document.querySelector("#descriptionD");
   expenses = getExpenses();
-  const expense = expenses.find((expense) => expense.id === id);
+  const expense = expensesDB.find((expense) => expense.id === id);
 
   if (!expense) {
     location.assign("/index.html");
@@ -225,6 +304,25 @@ const getCurrentTotal = (userToken) => {
       return totalUserExpense;
     }
   });
+  return totalUserExpense;
+};
+
+// getCurrentTotalDB function
+const getCurrentTotalDB = async (userToken) => {
+  const sessionDB = await renderCurrentSessionDB();
+  const currentSessionID = sessionDB._id;
+  console.log(currentSessionID);
+  const expensesDB = await loadExpensesDB();
+  let totalUserExpense = 0;
+
+  expensesDB.forEach((expense) => {
+    if (expense.sessionID === currentSessionID && expense.user === userToken) {
+      totalUserExpense += parseInt(expense.amount);
+    } else {
+      return totalUserExpense;
+    }
+  });
+
   return totalUserExpense;
 };
 
@@ -336,4 +434,7 @@ module.exports = {
   calculateDifference,
   reconcileBalanceD,
   reconcileBalanceJ,
+  renderExpenseDB,
+  initializedEditPageDB,
+  getCurrentTotalDB,
 };

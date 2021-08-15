@@ -96,7 +96,7 @@ let expensesDB = {};
 
 // load data from the database
 const loadExpensesDB = async () => {
-  const response = await fetch("http://localhost:3080/getexp", {
+  const response = await fetch("http://localhost:3080/expenses/getexp", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -104,7 +104,6 @@ const loadExpensesDB = async () => {
   });
   try {
     const result = await response.json();
-    console.log(result);
     return result;
   } catch (error) {
     console.log("err", error);
@@ -131,7 +130,7 @@ const getExpenseDB = () => expensesDB;
 //////////////////////////////////////////////////////////////////////////
 // push a new object into the expenses array
 const createExpenseDB = async () => {
-  const sessionDB = await renderCurrentSessionDB(); // new line of code
+  const sessionDB = await renderCurrentSessionDB();
   const currentSessionID = sessionDB._id;
   const getUser = localStorage.getItem("user");
 
@@ -152,10 +151,51 @@ const createExpenseDB = async () => {
   return data;
 };
 
-createExpenseDB();
+// getSortedExpenses: sort expenses by latest
+const getSortedExpensesDB = async () => {
+  const expenses = await loadExpensesDB();
+  return expenses.sort((a, b) => {
+    if (a.updatedAt > b.updatedAt) {
+      return -1;
+    } else if (a.updatedAt < b.updatedAt) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+};
+
+const updateExpensesDB = async (id, updates) => {
+  const result = await fetch("http://localhost:3080/expenses/updateExp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id,
+      updates,
+    }),
+  });
+};
+
+const removeExpensesDB = (id) => {
+  const result = fetch("http://localhost:3080/expenses/removeExp", {
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id,
+    }),
+  });
+};
 
 module.exports = {
   getPasswordJ,
   getPasswordD,
   renderCurrentSessionDB,
+  createExpenseDB,
+  loadExpensesDB,
+  getSortedExpensesDB,
+  updateExpensesDB,
 };

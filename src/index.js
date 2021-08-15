@@ -7,6 +7,7 @@ const renderCurrentSession = myfuncs.renderCurrentSession;
 const renderCurrentSessionDB = apifuncs.renderCurrentSessionDB;
 const getPasswordD = apifuncs.getPasswordD;
 const getPasswordJ = apifuncs.getPasswordJ;
+const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
 
 // querySelectors for index.html
 const checkedD = document.querySelector("#checkboxD");
@@ -67,10 +68,9 @@ const startSession = async () => {
       location.assign(`render.html`);
     } else alert("incorrect password, sucka or checkbox, no?");
   });
-
   // getCurrentTotal --- both David and Justin
-  const davidTotExp = getCurrentTotal("david");
-  const justinTotExp = getCurrentTotal("justin");
+  const davidTotExp = await getCurrentTotalDB("david");
+  const justinTotExp = await getCurrentTotalDB("justin");
 
   // renderTotInd --- both Justin and David
   totalD.textContent = `${formatCurr(davidTotExp)}`;

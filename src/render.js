@@ -6,11 +6,20 @@ const formatCurr = myfuncs.formatCurr;
 const calculateDifference = myfuncs.calculateDifference;
 const reconcileBalanceD = myfuncs.reconcileBalanceD;
 const reconcileBalanceJ = myfuncs.reconcileBalanceJ;
+const apifuncs = require("./api-functions");
+const renderExpenseDB = myfuncs.renderExpenseDB;
+const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
+const createExpenseDB = apifuncs.createExpenseDB;
 
 // Getting uniqueToken
 const uniqueToken = localStorage.getItem("user");
 
-renderExpense(uniqueToken);
+// renderExpense(uniqueToken);
+const runRen = async () => {
+  await renderExpenseDB(uniqueToken);
+};
+runRen();
+
 console.log("you are in the render page");
 
 // listen for the add button, sign out button for both users
@@ -44,7 +53,7 @@ if (uniqueToken === "david") {
   // Add Button Functionality --- David
   addElement.disabled = false;
   addElement.addEventListener("click", async (e) => {
-    const expenseID = await createExpense();
+    const expenseID = await createExpenseDB();
     location.assign(`edit.html#${expenseID}`);
   });
 
@@ -63,9 +72,11 @@ if (uniqueToken === "david") {
 
   // Add Button Functionality --- Justin
   addElementJ.disabled = false;
-  addElementJ.addEventListener("click", (e) => {
-    const expenseID = createExpense();
-    location.assign(`edit.html#${expenseID}`);
+  addElementJ.addEventListener("click", async (e) => {
+    const expenseID = await createExpenseDB();
+    if (expenseID) {
+      location.assign(`edit.html#${expenseID}`);
+    }
   });
 
   // Sign out Button Functionality --- Justin
@@ -75,18 +86,22 @@ if (uniqueToken === "david") {
   });
 }
 
-// getCurrentTotal --- both David and Justin
-const davidTotExp = getCurrentTotal("david");
-const justinTotExp = getCurrentTotal("justin");
+const TotandDiff = async () => {
+  // getCurrentTotal --- both David and Justin
+  const davidTotExp = await getCurrentTotalDB("david");
+  const justinTotExp = await getCurrentTotalDB("justin");
 
-// renderTotInd --- both Justin and David
-totalD.textContent = `${formatCurr(davidTotExp)}`;
-totalJ.textContent = `${formatCurr(justinTotExp)}`;
+  // renderTotInd --- both Justin and David
+  totalD.textContent = `${formatCurr(davidTotExp)}`;
+  totalJ.textContent = `${formatCurr(justinTotExp)}`;
 
-// renderTotDiff --- both Justin and David
-const difference = calculateDifference(davidTotExp, justinTotExp);
-const dOperationSign = davidTotExp < justinTotExp ? "-" : "";
-const jOperationSign = justinTotExp < davidTotExp ? "-" : "";
+  // renderTotDiff --- both Justin and David
+  const difference = calculateDifference(davidTotExp, justinTotExp);
+  const dOperationSign = davidTotExp < justinTotExp ? "-" : "";
+  const jOperationSign = justinTotExp < davidTotExp ? "-" : "";
 
-differenceD.textContent = `${dOperationSign} ${formatCurr(difference)}`;
-differenceJ.textContent = `${jOperationSign} ${formatCurr(difference)}`;
+  differenceD.textContent = `${dOperationSign} ${formatCurr(difference)}`;
+  differenceJ.textContent = `${jOperationSign} ${formatCurr(difference)}`;
+};
+
+TotandDiff();

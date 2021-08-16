@@ -40,54 +40,48 @@ const uniqueToken = localStorage.getItem("user");
 // renderExpense(uniqueToken);
 const runRen = async () => {
   await renderExpenseDB(uniqueToken);
-};
-runRen();
+  // Based on the users, enable the buttons
 
-console.log("you are in the render page");
+  if (uniqueToken === "david") {
+    // Reconcile balances --- David
+    resetD.disabled = false;
+    resetD.addEventListener("click", (e) => {
+      reconcileBalanceD();
+      window.location.reload(true);
+    });
 
-// Based on the users, enable the buttons
+    // Add Button Functionality --- David
+    addElement.disabled = false;
+    addElement.addEventListener("click", async (e) => {
+      location.assign(`edit.html`);
+    });
 
-if (uniqueToken === "david") {
-  // Reconcile balances --- David
-  resetD.disabled = false;
-  resetD.addEventListener("click", (e) => {
-    reconcileBalanceD();
-    window.location.reload(true);
-  });
+    // Sign out Button Functionality --- David
+    signoutElement.disabled = false;
+    signoutElement.addEventListener("click", (e) => {
+      location.assign(`index.html`);
+    });
+  } else {
+    // Reconcile balances --- Justin
+    resetJ.disabled = false;
+    resetJ.addEventListener("click", (e) => {
+      reconcileBalanceJ();
+      window.location.reload(true);
+    });
 
-  // Add Button Functionality --- David
-  addElement.disabled = false;
-  addElement.addEventListener("click", async (e) => {
-    location.assign(`edit.html`);
-  });
+    // Add Button Functionality --- Justin
+    addElementJ.disabled = false;
+    addElementJ.addEventListener("click", async (e) => {
+      location.assign(`edit.html`);
+    });
 
-  // Sign out Button Functionality --- David
-  signoutElement.disabled = false;
-  signoutElement.addEventListener("click", (e) => {
-    location.assign(`index.html`);
-  });
-} else {
-  // Reconcile balances --- Justin
-  resetJ.disabled = false;
-  resetJ.addEventListener("click", (e) => {
-    reconcileBalanceJ();
-    window.location.reload(true);
-  });
+    // Sign out Button Functionality --- Justin
+    signoutElementJ.disabled = false;
+    signoutElementJ.addEventListener("click", (e) => {
+      location.assign("index.html");
+    });
+  }
 
-  // Add Button Functionality --- Justin
-  addElementJ.disabled = false;
-  addElementJ.addEventListener("click", async (e) => {
-    location.assign(`edit.html`);
-  });
-
-  // Sign out Button Functionality --- Justin
-  signoutElementJ.disabled = false;
-  signoutElementJ.addEventListener("click", (e) => {
-    location.assign("index.html");
-  });
-}
-
-const TotandDiff = async () => {
   // getCurrentTotal --- both David and Justin
   const davidTotExp = await getCurrentTotalDB("david");
   const justinTotExp = await getCurrentTotalDB("justin");
@@ -104,5 +98,6 @@ const TotandDiff = async () => {
   differenceD.textContent = `${dOperationSign} ${formatCurr(difference)}`;
   differenceJ.textContent = `${jOperationSign} ${formatCurr(difference)}`;
 };
+runRen();
 
-TotandDiff();
+console.log("you are in the render page");

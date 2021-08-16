@@ -165,11 +165,12 @@ const calculateDifference = (a, b) => {
 /////////////////////////////////////////// ----------- Reconciliation Functions ------------- //////////////////////////////////////////////////////////////
 
 // reconcileBalanceD: reconciles david's balance
-const reconcileBalanceD = () => {
-  const currentSession = getSession();
+const reconcileBalanceD = async () => {
+  const currentSession = await renderCurrentSessionDB();
   console.log(currentSession);
   if (!currentSession.justinComplete) {
-    currentSession.davidComplete = true;
+    currentSession.davidComplete = true; // here we send a post req to the backend call updateSessionD
+    //
     saveSession();
   } else if (currentSession.justinComplete) {
     currentSession.davidComplete = true;

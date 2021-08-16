@@ -52,6 +52,8 @@ const saveSessionDB = async () => {
   });
 };
 
+// updateSessionDB:
+
 // saveSessionDB();
 
 // createSessionDB: does not take argument, just sends a request to the backend

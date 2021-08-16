@@ -3,6 +3,9 @@
 // no need to create an empty object in the database ------- done
 // no need to pass any id in href!!! ----- done
 
+// Regarding the reconciliation of balances:
+// Both buttons should work, revise functions!
+
 const myfuncs = require("./functions");
 const formatCurr = myfuncs.formatCurr;
 const calculateDifference = myfuncs.calculateDifference;

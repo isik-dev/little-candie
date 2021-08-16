@@ -1,7 +1,7 @@
 // Things to fix:
 // There should be two ways we can access this page:
-// 1. Through clicking on an addElement button in the render page, here we are creating a new expense object.
-// 2. Through clicking on an individual expense div, here we are updating an existing object.
+// 1. Through clicking on an addElement button in the render page, here we are creating a new expense object. -- done
+// 2. Through clicking on an individual expense div, here we are updating an existing object. -- done
 
 const myfuncs = require("./functions");
 const apifuncs = require("./api-functions");

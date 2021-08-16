@@ -1,6 +1,6 @@
 ////////////////// -------------- API Requests -------------- ///////////////////
 const { url: base_url } = require("../env");
-console.log("THIS IS BASE URL", base_url);
+
 // GET david's password from the database
 const getPasswordD = async () => {
   const response = await fetch(`${base_url}/loginpageget`, {
@@ -11,7 +11,7 @@ const getPasswordD = async () => {
   });
   try {
     const result = await response.json();
-    console.log(result);
+
     return result[0].passwordD;
   } catch (error) {
     console.log("err", error);
@@ -28,7 +28,7 @@ const getPasswordJ = async () => {
   });
   try {
     const result = await response.json();
-    console.log(result);
+
     return result[0].passwordJ;
   } catch (error) {
     console.log("err", error);
@@ -102,7 +102,7 @@ const loadExpensesDB = async () => {
   });
   try {
     const result = await response.json();
-    console.log("sdslldlsldd", result);
+
     return result;
   } catch (error) {
     localStorage.setItem("err", error.toString());
@@ -120,8 +120,6 @@ const saveExpensesDB = async () => {
     body: JSON.stringify(expensesDB),
   });
   const content = await rawResponse.json();
-
-  console.log(content);
 };
 
 // getExpenseDB exposes expenses
@@ -129,11 +127,10 @@ const getExpenseDB = () => expensesDB;
 
 //////////////////////////////////////////////////////////////////////////
 // push a new object into the expenses array
-const createExpenseDB = async () => {
+const createExpenseDB = async (amount, description, user) => {
+  console.log(amount, description, user);
   const sessionDB = await renderCurrentSessionDB();
-  console.log("this is sesssionDD", sessionDB);
   const currentSessionID = sessionDB._id;
-  const getUser = localStorage.getItem("user");
 
   const result = await fetch(`${base_url}/expenses/createExpense`, {
     method: "POST",
@@ -142,9 +139,9 @@ const createExpenseDB = async () => {
     },
     body: JSON.stringify({
       sessionID: currentSessionID,
-      amount: "",
-      description: "",
-      user: getUser,
+      amount: amount,
+      description: description,
+      user: user,
     }),
   });
 
@@ -168,6 +165,7 @@ const getSortedExpensesDB = async () => {
 };
 
 const updateExpensesDB = async (id, updates) => {
+  console.log(id, updates);
   const result = await fetch(`${base_url}/expenses/updateExp`, {
     method: "POST",
     headers: {
@@ -180,8 +178,8 @@ const updateExpensesDB = async (id, updates) => {
   });
 };
 
-const removeExpensesDB = (id) => {
-  const result = fetch(`${base_url}/expenses/removeExp`, {
+const removeExpensesDB = async (id) => {
+  const result = await fetch(`${base_url}/expenses/removeExp`, {
     method: "POST",
     header: {
       "Content-Type": "application/json",

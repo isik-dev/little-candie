@@ -47,7 +47,7 @@ passwordJ.addEventListener("change", (e) => {
 
 const startSession = async () => {
   await renderCurrentSessionDB();
-  // Submit Button Functionality --- David
+  // Submit Button Functionality --- David --- where the user name is passed to the local storage
   submitD.addEventListener("click", async (e) => {
     const pass = await getPasswordD();
     if (checkboxCheckedD && passwordValueD.toLowerCase() === pass) {
@@ -56,7 +56,7 @@ const startSession = async () => {
     } else alert("incorrect password, sucka or checkbox, no?");
   });
 
-  // Submit Functionality --- Justin
+  // Submit Functionality --- Justin --- where the user name is passed to the local storage
   submitJ.addEventListener("click", async (e) => {
     const pass = await getPasswordJ();
     if (checkboxCheckedJ && passwordValueJ.toLowerCase() === pass) {
@@ -64,7 +64,7 @@ const startSession = async () => {
       location.assign(`render.html`);
     } else alert("incorrect password, sucka or checkbox, no?");
   });
-  // getCurrentTotal --- both David and Justin
+  // getCurrentTotal --- both David and Justin --- sends a request to the backend to bring current total
   const davidTotExp = await getCurrentTotalDB("david");
   const justinTotExp = await getCurrentTotalDB("justin");
 

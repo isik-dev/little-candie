@@ -1,3 +1,8 @@
+// addElement: need to fix everything related to this button.
+// when this button is clicked we should just redirect the user to the edit page. ------- done
+// no need to create an empty object in the database ------- done
+// no need to pass any id in href!!! ----- done
+
 const myfuncs = require("./functions");
 const formatCurr = myfuncs.formatCurr;
 const calculateDifference = myfuncs.calculateDifference;
@@ -7,17 +12,6 @@ const apifuncs = require("./api-functions");
 const renderExpenseDB = myfuncs.renderExpenseDB;
 const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
 const createExpenseDB = apifuncs.createExpenseDB;
-
-// Getting uniqueToken
-const uniqueToken = localStorage.getItem("user");
-
-// renderExpense(uniqueToken);
-const runRen = async () => {
-  await renderExpenseDB(uniqueToken);
-};
-runRen();
-
-console.log("you are in the render page");
 
 // listen for the add button, sign out button for both users
 const addElement = document.querySelector("#renderaddD");
@@ -37,6 +31,17 @@ signoutElementJ.disabled = true;
 resetD.disabled = true;
 resetJ.disabled = true;
 
+// Getting uniqueToken
+const uniqueToken = localStorage.getItem("user");
+
+// renderExpense(uniqueToken);
+const runRen = async () => {
+  await renderExpenseDB(uniqueToken);
+};
+runRen();
+
+console.log("you are in the render page");
+
 // Based on the users, enable the buttons
 
 if (uniqueToken === "david") {
@@ -50,8 +55,7 @@ if (uniqueToken === "david") {
   // Add Button Functionality --- David
   addElement.disabled = false;
   addElement.addEventListener("click", async (e) => {
-    const expenseID = await createExpenseDB();
-    location.assign(`edit.html#${expenseID}`);
+    location.assign(`edit.html`);
   });
 
   // Sign out Button Functionality --- David
@@ -70,8 +74,7 @@ if (uniqueToken === "david") {
   // Add Button Functionality --- Justin
   addElementJ.disabled = false;
   addElementJ.addEventListener("click", async (e) => {
-    const expenseID = await createExpenseDB();
-    location.assign(`edit.html#${expenseID}`);
+    location.assign(`edit.html`);
   });
 
   // Sign out Button Functionality --- Justin

@@ -179,13 +179,14 @@ const updateExpensesDB = async (id, updates) => {
 };
 
 const removeExpensesDB = async (id) => {
+  console.log("the id is coming and here it is", id);
   const result = await fetch(`${base_url}/expenses/removeExp`, {
     method: "POST",
     header: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      id,
+      id: id,
     }),
   });
 };

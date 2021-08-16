@@ -54,7 +54,7 @@ const editP = async () => {
     if (noteID.length === 0) {
       location.assign(`render.html#${uniqueToken}`);
     } else {
-      await removeExpensesDB(noteID, console.log(noteID));
+      await removeExpensesDB(noteID);
       location.assign(`render.html#${uniqueToken}`);
     }
   });

@@ -5,6 +5,7 @@ module.exports = {
     index: ["@babel/polyfill", "./src/index.js"],
     render: ["@babel/polyfill", "./src/render.js"],
     edit: ["@babel/polyfill", "./src/edit.js"],
+    history: ["@babel/polyfill", "./src/history.js"],
   },
   output: {
     path: path.resolve(__dirname, "public/scripts"),

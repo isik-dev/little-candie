@@ -37,25 +37,6 @@ const getPasswordJ = async () => {
 
 //////////////////////////// ------------- Session / MongoDB ------------ ///////////////////////////////
 
-// initialize the session
-let sessionDB = {};
-
-// getSessionDB: exposes a current session object
-const getSessionDB = () => sessionDB;
-
-// saveSessionDB: takes the current session and sends it to the backend
-const saveSessionDB = async () => {
-  await fetch(`${base_url}/session/saveSessionDB`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(sessionDB),
-  });
-};
-
-// updateSessionDB:
-
-// saveSessionDB();
-
 // createSessionDB: does not take argument, just sends a request to the backend
 const updateSessionDB = async (id, updates) => {
   const result = await fetch(`${base_url}/session/updateSessionDB`, {
@@ -89,8 +70,6 @@ const renderCurrentSessionDB = async () => {
 
 //////////////////////////// ------------- Expenses / MongoDB ------------ ///////////////////////////////
 
-let expensesDB = {};
-
 // load data from the database
 const loadExpensesDB = async () => {
   const response = await fetch(`${base_url}/expenses/getexp`, {
@@ -109,25 +88,8 @@ const loadExpensesDB = async () => {
   }
 };
 
-// save expenses into the database
-const saveExpensesDB = async () => {
-  const rawResponse = await fetch(`${base_url}/getexp`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(expensesDB),
-  });
-  const content = await rawResponse.json();
-};
-
-// getExpenseDB exposes expenses
-const getExpenseDB = () => expensesDB;
-
-//////////////////////////////////////////////////////////////////////////
 // push a new object into the expenses array
 const createExpenseDB = async (amount, description, user) => {
-  console.log(amount, description, user);
   const sessionDB = await renderCurrentSessionDB();
   const currentSessionID = sessionDB._id;
 
@@ -145,7 +107,7 @@ const createExpenseDB = async (amount, description, user) => {
   });
 
   const data = await result.json();
-  console.log("this is createExpense", data);
+
   return data;
 };
 
@@ -164,7 +126,6 @@ const getSortedExpensesDB = async () => {
 };
 
 const updateExpensesDB = async (id, updates) => {
-  console.log(id, updates);
   const result = await fetch(`${base_url}/expenses/updateExp`, {
     method: "POST",
     headers: {
@@ -178,7 +139,6 @@ const updateExpensesDB = async (id, updates) => {
 };
 
 const removeExpensesDB = async (id) => {
-  console.log("the id is coming and here it is", id);
   const result = await fetch(`${base_url}/expenses/removeExp`, {
     method: "POST",
     headers: {

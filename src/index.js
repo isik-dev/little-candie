@@ -1,13 +1,16 @@
+// Functions from the static functions folder
 const myfuncs = require("./functions");
-const apifuncs = require("./api-functions");
 const calculateDifference = myfuncs.calculateDifference;
 const formatCurr = myfuncs.formatCurr;
+const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
+
+// Functions from the api functions folder
+const apifuncs = require("./api-functions");
 const renderCurrentSessionDB = apifuncs.renderCurrentSessionDB;
 const getPasswordD = apifuncs.getPasswordD;
 const getPasswordJ = apifuncs.getPasswordJ;
-const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
 
-// querySelectors for index.html
+// listen to the checkbox, textbox and button
 const checkedD = document.querySelector("#checkboxD");
 const checkedJ = document.querySelector("#checkboxJ");
 const passwordD = document.querySelector("#passwordD");

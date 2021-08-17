@@ -1,16 +1,11 @@
-// addElement: need to fix everything related to this button.
-// when this button is clicked we should just redirect the user to the edit page. ------- done
-// no need to create an empty object in the database ------- done
-// no need to pass any id in href!!! ----- done
-
-// Regarding the reconciliation of balances:
-// Both buttons should work, revise functions!
-
+// Functions from the static functions folder
 const myfuncs = require("./functions");
 const formatCurr = myfuncs.formatCurr;
 const calculateDifference = myfuncs.calculateDifference;
 const reconcileBalanceD = myfuncs.reconcileBalanceD;
 const reconcileBalanceJ = myfuncs.reconcileBalanceJ;
+
+// Functions from the api functions folder
 const apifuncs = require("./api-functions");
 const renderExpenseDB = myfuncs.renderExpenseDB;
 const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
@@ -34,14 +29,14 @@ signoutElementJ.disabled = true;
 resetD.disabled = true;
 resetJ.disabled = true;
 
-// Getting uniqueToken
+// Getting uniqueToken --- output: David || Justin
 const uniqueToken = localStorage.getItem("user");
 
 // renderExpense(uniqueToken);
 const runRen = async () => {
   await renderExpenseDB(uniqueToken);
-  // Based on the users, enable the buttons
 
+  // Based on the users, enable the buttons
   if (uniqueToken === "david") {
     // Reconcile balances --- David
     resetD.disabled = false;
@@ -99,5 +94,3 @@ const runRen = async () => {
   differenceJ.textContent = `${jOperationSign} ${formatCurr(difference)}`;
 };
 runRen();
-
-console.log("you are in the render page");

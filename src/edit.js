@@ -1,13 +1,6 @@
-// Things to fix:
-// There should be two ways we can access this page:
-// 1. Through clicking on an addElement button in the render page, here we are creating a new expense object. -- done
-// 2. Through clicking on an individual expense div, here we are updating an existing object. -- done
-
-const myfuncs = require("./functions");
+// Functions from the api functions folder
 const apifuncs = require("./api-functions");
-
 const removeExpensesDB = apifuncs.removeExpensesDB;
-const initializedEditPageDB = myfuncs.initializedEditPageDB;
 const updateExpensesDB = apifuncs.updateExpensesDB;
 const createExpenseDB = apifuncs.createExpenseDB;
 
@@ -16,8 +9,6 @@ const amountElement = document.querySelector("#amountD");
 const descriptionElement = document.querySelector("#descriptionD");
 const submitEl = document.querySelector("#submitD");
 const removeElement = document.querySelector("#removeD");
-
-// take a hold of noteID & uniqueToken --> unique uuid coming from index.js
 
 const editP = async () => {
   const uniqueToken = localStorage.getItem("user");

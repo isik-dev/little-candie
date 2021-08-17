@@ -94,22 +94,6 @@ const renderExpenseDB = async (uniqueToken) => {
   }
 };
 
-// initializedEditPageDB function
-const initializedEditPageDB = async (id) => {
-  const amountEl = document.querySelector("#amountD");
-  const descriptionEl = document.querySelector("#descriptionD");
-  expensesDB = await loadExpensesDB();
-  const expense = expensesDB.find((expense) => expense._id === id);
-
-  if (!expense) {
-    // location.assign("/index.html");
-    console.log("no expense in initial func");
-  }
-
-  amountEl.value = expense.amount || "no expense.amount";
-  descriptionEl.value = expense.description || "no expense.description";
-};
-
 // sorteExpensesByUserDB function
 const sortExpensesByUserDB = async () => {
   const o = { davidExpenses: [], justinExpenses: [] };
@@ -127,7 +111,7 @@ const sortExpensesByUserDB = async () => {
 const getCurrentTotalDB = async (userToken) => {
   const sessionDB = await renderCurrentSessionDB();
   const currentSessionID = sessionDB._id;
-  console.log(currentSessionID);
+
   const expensesDB = await loadExpensesDB();
   let totalUserExpense = 0;
 
@@ -168,7 +152,7 @@ const calculateDifference = (a, b) => {
 // reconcileBalanceD: reconciles david's balance
 const reconcileBalanceD = async () => {
   const currentSession = await renderCurrentSessionDB();
-  console.log(currentSession);
+
   const id = currentSession._id;
   let davidComplete;
   let justinComplete;
@@ -193,7 +177,7 @@ const reconcileBalanceD = async () => {
 // reconcileBalanceJ: reconciles justin's balance
 const reconcileBalanceJ = async () => {
   const currentSession = await renderCurrentSessionDB();
-  console.log(currentSession);
+
   const id = currentSession._id;
   let davidComplete;
   let justinComplete;
@@ -217,12 +201,10 @@ const reconcileBalanceJ = async () => {
 
 /////////////////////////////////////////////////////////
 module.exports = {
-  generateDOM,
   formatCurr,
   calculateDifference,
   reconcileBalanceD,
   reconcileBalanceJ,
   renderExpenseDB,
-  initializedEditPageDB,
   getCurrentTotalDB,
 };

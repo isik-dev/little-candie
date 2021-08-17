@@ -164,8 +164,6 @@ const reconcileBalanceD = async () => {
     sessionComplete = false;
     updateSessionDB(id, { davidComplete, justinComplete, sessionComplete });
   } else if (currentSession.justinComplete) {
-    // currentSession.davidComplete = true;
-    // currentSession.sessionComplete = true;
     davidComplete = true;
     justinComplete = true;
     sessionComplete = true;
@@ -189,8 +187,6 @@ const reconcileBalanceJ = async () => {
     sessionComplete = false;
     updateSessionDB(id, { davidComplete, justinComplete, sessionComplete });
   } else if (currentSession.davidComplete) {
-    // currentSession.davidComplete = true;
-    // currentSession.sessionComplete = true;
     davidComplete = true;
     justinComplete = true;
     sessionComplete = true;

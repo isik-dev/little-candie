@@ -4,12 +4,8 @@ const formatCurr = myfuncs.formatCurr;
 const calculateDifference = myfuncs.calculateDifference;
 const reconcileBalanceD = myfuncs.reconcileBalanceD;
 const reconcileBalanceJ = myfuncs.reconcileBalanceJ;
-
-// Functions from the api functions folder
-const apifuncs = require("./api-functions");
 const renderExpenseDB = myfuncs.renderExpenseDB;
 const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
-const createExpenseDB = apifuncs.createExpenseDB;
 
 // listen for the add button, sign out button for both users
 const addElement = document.querySelector("#renderaddD");

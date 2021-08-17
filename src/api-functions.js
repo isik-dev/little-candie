@@ -57,20 +57,17 @@ const saveSessionDB = async () => {
 // saveSessionDB();
 
 // createSessionDB: does not take argument, just sends a request to the backend
-const createSessionDB = async () => {
-  const result = await fetch(`${base_url}/session/createSessionDB`, {
+const updateSessionDB = async (id, updates) => {
+  const result = await fetch(`${base_url}/session/updateSessionDB`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      davidComplete: false,
-      justinComplete: false,
-      sessionComplete: false,
+      id,
+      updates,
     }),
   });
-  const data = await result.json();
-  return data;
 };
 
 // renderCurrentSessionDB: sends a get request to the DB and brings the latest session from there
@@ -202,4 +199,5 @@ module.exports = {
   getSortedExpensesDB,
   updateExpensesDB,
   removeExpensesDB,
+  updateSessionDB,
 };

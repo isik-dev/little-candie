@@ -45,8 +45,8 @@ const runRen = async () => {
   if (uniqueToken === "david") {
     // Reconcile balances --- David
     resetD.disabled = false;
-    resetD.addEventListener("click", (e) => {
-      reconcileBalanceD();
+    resetD.addEventListener("click", async (e) => {
+      await reconcileBalanceD();
       window.location.reload(true);
     });
 
@@ -64,8 +64,8 @@ const runRen = async () => {
   } else {
     // Reconcile balances --- Justin
     resetJ.disabled = false;
-    resetJ.addEventListener("click", (e) => {
-      reconcileBalanceJ();
+    resetJ.addEventListener("click", async (e) => {
+      await reconcileBalanceJ();
       window.location.reload(true);
     });
 

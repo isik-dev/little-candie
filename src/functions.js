@@ -2,6 +2,7 @@ const apifuncs = require("./api-functions");
 const renderCurrentSessionDB = apifuncs.renderCurrentSessionDB;
 const loadExpensesDB = apifuncs.loadExpensesDB;
 const getSortedExpensesDB = apifuncs.getSortedExpensesDB;
+const updateSessionDB = apifuncs.updateSessionDB;
 
 /////////////////////-----------Everything related to Expenses Array------------////////////////////
 
@@ -168,30 +169,49 @@ const calculateDifference = (a, b) => {
 const reconcileBalanceD = async () => {
   const currentSession = await renderCurrentSessionDB();
   console.log(currentSession);
+  const id = currentSession._id;
+  let davidComplete;
+  let justinComplete;
+  let sessionComplete;
+
   if (!currentSession.justinComplete) {
-    currentSession.davidComplete = true; // here we send a post req to the backend call updateSessionD
-    //
-    saveSession();
+    davidComplete = true;
+    justinComplete = false;
+    sessionComplete = false;
+    updateSessionDB(id, { davidComplete, justinComplete, sessionComplete });
   } else if (currentSession.justinComplete) {
-    currentSession.davidComplete = true;
-    currentSession.sessionComplete = true;
-    saveSession();
-    createSession();
+    // currentSession.davidComplete = true;
+    // currentSession.sessionComplete = true;
+    davidComplete = true;
+    justinComplete = true;
+    sessionComplete = true;
+    updateSessionDB(id, { davidComplete, justinComplete, sessionComplete });
+    renderCurrentSessionDB();
   }
 };
 
 // reconcileBalanceJ: reconciles justin's balance
-const reconcileBalanceJ = () => {
-  const currentSession = getSession();
+const reconcileBalanceJ = async () => {
+  const currentSession = await renderCurrentSessionDB();
   console.log(currentSession);
+  const id = currentSession._id;
+  let davidComplete;
+  let justinComplete;
+  let sessionComplete;
+
   if (!currentSession.davidComplete) {
-    currentSession.justinComplete = true;
-    saveSession();
+    davidComplete = false;
+    justinComplete = true;
+    sessionComplete = false;
+    updateSessionDB(id, { davidComplete, justinComplete, sessionComplete });
   } else if (currentSession.davidComplete) {
-    currentSession.justinComplete = true;
-    currentSession.sessionComplete = true;
-    saveSession();
-    createSession();
+    // currentSession.davidComplete = true;
+    // currentSession.sessionComplete = true;
+    davidComplete = true;
+    justinComplete = true;
+    sessionComplete = true;
+    updateSessionDB(id, { davidComplete, justinComplete, sessionComplete });
+    renderCurrentSessionDB();
   }
 };
 

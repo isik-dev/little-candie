@@ -1,22 +1,32 @@
 // if you have any suggestion of questions, pleasse feel free to send me an email to chiholiu10@gmail.com
 const { url: base_url } = require("../env");
 const getData = new Promise((res, rej) => {
-  const response = fetch(`${base_url}/history`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((response) => {
+  const parser = new URL(window.location);
+  const pageQueryParam = parser.searchParams.get("page");
+
+  const response = fetch(
+    `${base_url}/history/${pageQueryParam ? pageQueryParam : 1}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((response) => {
     if (response.status < 400) {
       res(response.json());
     }
   });
 });
+const totalD = document.querySelector("#totalD");
+const totalJ = document.querySelector("#totalJ");
+const differenceD = document.querySelector("#differenceD");
+const differenceJ = document.querySelector("#differenceJ");
 (function () {
   "use strict";
 
-  function Pagination(dataSession) {
-    console.log(dataSession);
+  function Pagination(dataSession, totalCount) {
+    console.log(dataSession, totalCount);
     let objJson = [
       { adName: "adName 1" },
       { adName: "adName 2" },
@@ -40,9 +50,11 @@ const getData = new Promise((res, rej) => {
     const prevButton = document.getElementById("button_prev");
     const nextButton = document.getElementById("button_next");
     const clickPageNumber = document.querySelectorAll(".clickPageNumber");
-
-    let current_page = 1;
-    let records_per_page = 5;
+    const parser = new URL(window.location);
+    const _current_page = parser.searchParams.get("page");
+    console.log("pageQueryParam", _current_page);
+    let current_page = _current_page ? _current_page : 1;
+    let records_per_page = 1;
 
     this.init = function () {
       changePage(1);
@@ -61,6 +73,7 @@ const getData = new Promise((res, rej) => {
       let page_number = document
         .getElementById("page_number")
         .getElementsByClassName("clickPageNumber");
+      console.log("this is selected page", page_number);
       for (let i = 0; i < page_number.length; i++) {
         if (i == current_page - 1) {
           page_number[i].style.opacity = "1.0";
@@ -105,15 +118,17 @@ const getData = new Promise((res, rej) => {
 
     let prevPage = function () {
       if (current_page > 1) {
-        current_page--;
-        changePage(current_page);
+        new URL(window.location);
+        parser.searchParams.set("page", Number(current_page) - 1);
+        window.location = parser.href;
       }
     };
 
     let nextPage = function () {
       if (current_page < numPages()) {
-        current_page++;
-        changePage(current_page);
+        new URL(window.location);
+        parser.searchParams.set("page", Number(current_page) + 1);
+        window.location = parser.href;
       }
     };
 
@@ -124,7 +139,9 @@ const getData = new Promise((res, rej) => {
           e.target.classList.contains("clickPageNumber")
         ) {
           current_page = e.target.textContent;
-          changePage(current_page);
+          new URL(window.location);
+          parser.searchParams.set("page", Number(current_page) + 1);
+          window.location = parser.href;
         }
       });
     };
@@ -140,12 +157,19 @@ const getData = new Promise((res, rej) => {
     };
 
     let numPages = function () {
-      return Math.ceil(objJson.length / records_per_page);
+      return totalCount; // Math.ceil(objJson.length / records_per_page);
     };
   }
   getData.then((data) => {
-    console.log(data);
-    let pagination = new Pagination(data);
+    // const parser = new URL(window.location);
+    // const pageQueryParam = parser.searchParams.get("page");
+    // console.log("pageQueryParam", pageQueryParam);
+    // parser.searchParams.set(key, value);
+    // window.location = parser.href;
+
+    let pagination = new Pagination(data.sessions[0], data.totalCount);
     pagination.init();
   });
 })();
+
+// get set url and reload

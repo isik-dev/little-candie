@@ -26,7 +26,6 @@ const differenceJ = document.querySelector("#differenceJ");
   "use strict";
 
   function Pagination(dataSession, totalCount) {
-    console.log(dataSession, totalCount);
     let objJson = [
       { adName: "adName 1" },
       { adName: "adName 2" },
@@ -45,14 +44,12 @@ const differenceJ = document.querySelector("#differenceJ");
       { adName: "adName 15" },
       { adName: "adName 16" },
     ];
-    // objJson = dataSession.sessions;
 
     const prevButton = document.getElementById("button_prev");
     const nextButton = document.getElementById("button_next");
     const clickPageNumber = document.querySelectorAll(".clickPageNumber");
     const parser = new URL(window.location);
     const _current_page = parser.searchParams.get("page");
-    console.log("pageQueryParam", _current_page);
     let current_page = _current_page ? _current_page : 1;
     let records_per_page = 1;
 
@@ -73,7 +70,6 @@ const differenceJ = document.querySelector("#differenceJ");
       let page_number = document
         .getElementById("page_number")
         .getElementsByClassName("clickPageNumber");
-      console.log("this is selected page", page_number);
       for (let i = 0; i < page_number.length; i++) {
         if (i == current_page - 1) {
           page_number[i].style.opacity = "1.0";
@@ -119,6 +115,7 @@ const differenceJ = document.querySelector("#differenceJ");
     let prevPage = function () {
       if (current_page > 1) {
         new URL(window.location);
+        ``;
         parser.searchParams.set("page", Number(current_page) - 1);
         window.location = parser.href;
       }
@@ -138,9 +135,8 @@ const differenceJ = document.querySelector("#differenceJ");
           e.target.nodeName == "SPAN" &&
           e.target.classList.contains("clickPageNumber")
         ) {
-          current_page = e.target.textContent;
-          new URL(window.location);
-          parser.searchParams.set("page", Number(current_page) + 1);
+          let page_togo = e.target.textContent;
+          parser.searchParams.set("page", page_togo);
           window.location = parser.href;
         }
       });
@@ -161,15 +157,7 @@ const differenceJ = document.querySelector("#differenceJ");
     };
   }
   getData.then((data) => {
-    // const parser = new URL(window.location);
-    // const pageQueryParam = parser.searchParams.get("page");
-    // console.log("pageQueryParam", pageQueryParam);
-    // parser.searchParams.set(key, value);
-    // window.location = parser.href;
-
     let pagination = new Pagination(data.sessions[0], data.totalCount);
     pagination.init();
   });
 })();
-
-// get set url and reload

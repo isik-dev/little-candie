@@ -54,7 +54,7 @@ const differenceJ = document.querySelector("#differenceJ");
     let records_per_page = 1;
 
     this.init = function () {
-      changePage(1);
+      changePage(Number(current_page));
       pageNumbers();
       selectedPage();
       clickPage();
@@ -156,7 +156,25 @@ const differenceJ = document.querySelector("#differenceJ");
       return totalCount; // Math.ceil(objJson.length / records_per_page);
     };
   }
+  function onReady(callback) {
+    var intervalId = window.setInterval(function () {
+      if (document.getElementsByTagName("body")[0] !== undefined) {
+        window.clearInterval(intervalId);
+        callback.call(this);
+      }
+    }, 1000);
+  }
+
+  function setVisible(selector, visible) {
+    document.querySelector(selector).style.display = visible ? "block" : "none";
+  }
+
+  function asas() {
+    setVisible(".page", true);
+    setVisible("#loading", false);
+  }
   getData.then((data) => {
+    asas();
     let pagination = new Pagination(data.sessions[0], data.totalCount);
     pagination.init();
   });

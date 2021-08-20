@@ -47,14 +47,13 @@ const differenceJ = document.querySelector("#differenceJ");
 
     const prevButton = document.getElementById("button_prev");
     const nextButton = document.getElementById("button_next");
-    const clickPageNumber = document.querySelectorAll(".clickPageNumber");
     const parser = new URL(window.location);
     const _current_page = parser.searchParams.get("page");
     let current_page = _current_page ? _current_page : 1;
     let records_per_page = 1;
 
     this.init = function () {
-      changePage(Number(current_page));
+      // changePage(Number(current_page));
       pageNumbers();
       selectedPage();
       clickPage();
@@ -66,6 +65,8 @@ const differenceJ = document.querySelector("#differenceJ");
       nextButton.addEventListener("click", nextPage);
     };
 
+    // selectPage gives opacity to current page number. opacity: 1 means no blur/dim
+    // if opacity is less than one then it's blurred/dimmed
     let selectedPage = function () {
       let page_number = document
         .getElementById("page_number")
@@ -79,6 +80,7 @@ const differenceJ = document.querySelector("#differenceJ");
       }
     };
 
+    // checkButtonOpacity sets the opacity for prev and next buttons
     let checkButtonOpacity = function () {
       current_page == 1
         ? prevButton.classList.add("opacity")
@@ -111,7 +113,7 @@ const differenceJ = document.querySelector("#differenceJ");
       checkButtonOpacity();
       selectedPage();
     };
-
+    // handles prev button click - refresh page if clicked
     let prevPage = function () {
       if (current_page > 1) {
         new URL(window.location);
@@ -120,7 +122,7 @@ const differenceJ = document.querySelector("#differenceJ");
         window.location = parser.href;
       }
     };
-
+    // handles next button click - refresh page if clicked
     let nextPage = function () {
       if (current_page < numPages()) {
         new URL(window.location);
@@ -128,7 +130,7 @@ const differenceJ = document.querySelector("#differenceJ");
         window.location = parser.href;
       }
     };
-
+    // handles page numbre button click - refresh page if clicked
     let clickPage = function () {
       document.addEventListener("click", function (e) {
         if (
@@ -142,6 +144,7 @@ const differenceJ = document.querySelector("#differenceJ");
       });
     };
 
+    // renders page number blocks
     let pageNumbers = function () {
       let pageNumber = document.getElementById("page_number");
       pageNumber.innerHTML = "";
@@ -152,6 +155,7 @@ const differenceJ = document.querySelector("#differenceJ");
       }
     };
 
+    // return int for how many pages exist
     let numPages = function () {
       return totalCount; // Math.ceil(objJson.length / records_per_page);
     };
@@ -169,12 +173,12 @@ const differenceJ = document.querySelector("#differenceJ");
     document.querySelector(selector).style.display = visible ? "block" : "none";
   }
 
-  function asas() {
+  function loadingFunc() {
     setVisible(".page", true);
     setVisible("#loading", false);
   }
   getData.then((data) => {
-    asas();
+    loadingFunc();
     let pagination = new Pagination(data.sessions[0], data.totalCount);
     pagination.init();
   });

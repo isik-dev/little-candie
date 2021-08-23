@@ -1,0 +1,7 @@
+.main-container-history {
+  border: 1px red solid;
+  display: block;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

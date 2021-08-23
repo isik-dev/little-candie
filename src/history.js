@@ -1,4 +1,17 @@
-// if you have any suggestion of questions, pleasse feel free to send me an email to chiholiu10@gmail.com
+// Functions from the static functions folder
+const myfuncs = require("./functions");
+const formatCurr = myfuncs.formatCurr;
+const calculateDifference = myfuncs.calculateDifference;
+const reconcileBalanceD = myfuncs.reconcileBalanceD;
+const reconcileBalanceJ = myfuncs.reconcileBalanceJ;
+// const renderExpenseDB = myfuncs.renderExpenseDB;
+const getCurrentTotalDB = myfuncs.getCurrentTotalDB;
+const apifuncs = require("./api-functions");
+const renderCurrentSessionDB = apifuncs.renderCurrentSessionDB;
+const loadExpensesDB = apifuncs.loadExpensesDB;
+const getSortedExpensesDB = apifuncs.getSortedExpensesDB;
+const updateSessionDB = apifuncs.updateSessionDB;
+
 const { url: base_url } = require("../env");
 const getData = new Promise((res, rej) => {
   const parser = new URL(window.location);
@@ -26,25 +39,6 @@ const differenceJ = document.querySelector("#differenceJ");
   "use strict";
 
   function Pagination(dataSession, totalCount) {
-    let objJson = [
-      { adName: "adName 1" },
-      { adName: "adName 2" },
-      { adName: "adName 3" },
-      { adName: "adName 4" },
-      { adName: "adName 5" },
-      { adName: "adName 6" },
-      { adName: "adName 7" },
-      { adName: "adName 8" },
-      { adName: "adName 9" },
-      { adName: "adName 10" },
-      { adName: "adName 11" },
-      { adName: "adName 12" },
-      { adName: "adName 13" },
-      { adName: "adName 14" },
-      { adName: "adName 15" },
-      { adName: "adName 16" },
-    ];
-
     const prevButton = document.getElementById("button_prev");
     const nextButton = document.getElementById("button_next");
     const parser = new URL(window.location);
@@ -53,7 +47,7 @@ const differenceJ = document.querySelector("#differenceJ");
     let records_per_page = 1;
 
     this.init = function () {
-      // changePage(Number(current_page));
+      renderPage(dataSession);
       pageNumbers();
       selectedPage();
       clickPage();
@@ -90,28 +84,27 @@ const differenceJ = document.querySelector("#differenceJ");
         : nextButton.classList.remove("opacity");
     };
 
-    let changePage = function (page) {
+    let renderPage = function (d) {
+      // select tag for expenses for both people
+      let expensesElDavid;
+      let expensesElJustin;
+      expensesElDavid = document.querySelector("#expenses"); //.style.pointerEvents = "none";
+      expensesElDavid.style.pointerEvents = "none";
+      expensesElJustin = document.querySelector("#expensesJ"); //.style.pointerEvents = "none";
+      expensesElJustin.style.pointerEvents = "none";
+
+      for (let p of d.expenses) {
+        if (p.user === "david") {
+          const expenseElDavid = generateDOM(p);
+          expensesElDavid.appendChild(expenseElDavid);
+        } else if (p.user === "justin") {
+          const expenseElJustin = generateDOM(p);
+          expensesElJustin.appendChild(expenseElJustin);
+        } else alert("error: unknow user on expenses.user");
+      }
+
+      const totalForTheMonths = null;
       const listingTable = document.getElementById("listingTable");
-
-      if (page < 1) {
-        page = 1;
-      }
-      if (page > numPages() - 1) {
-        page = numPages();
-      }
-
-      listingTable.innerHTML = "";
-
-      for (
-        var i = (page - 1) * records_per_page;
-        i < page * records_per_page && i < objJson.length;
-        i++
-      ) {
-        listingTable.innerHTML +=
-          "<div class='objectBlock'>" + objJson[i].adName + "</div>";
-      }
-      checkButtonOpacity();
-      selectedPage();
     };
     // handles prev button click - refresh page if clicked
     let prevPage = function () {
@@ -174,7 +167,7 @@ const differenceJ = document.querySelector("#differenceJ");
   }
 
   function loadingFunc() {
-    setVisible(".page", true);
+    setVisible(".main-container-history", true);
     setVisible("#loading", false);
   }
   getData.then((data) => {
@@ -183,3 +176,39 @@ const differenceJ = document.querySelector("#differenceJ");
     pagination.init();
   });
 })();
+
+// generate the DOM structure for each expense
+const generateDOM = (expense) => {
+  const expenseEl = document.createElement("a");
+  const amountEl = document.createElement("p");
+  const descriptionEl = document.createElement("p");
+
+  // add classes to generated tags
+  expenseEl.classList.add("expense-a-tag");
+  amountEl.classList.add("expense-p-tag");
+  descriptionEl.classList.add("expense-p-tag");
+
+  // setup the expense amount text
+  if (expense.amount.length > 0) {
+    amountEl.textContent = `${formatCurr(expense.amount)}`;
+  } else {
+    amountEl.textContent = "Amount Not Given";
+  }
+  amountEl.classList.add("list-item__title");
+  expenseEl.appendChild(amountEl);
+
+  // setup the link
+  expenseEl.setAttribute("href", `edit.html#${expense._id}`);
+  expenseEl.classList.add("list-item");
+
+  // setup the description
+  if (expense.description.length > 0) {
+    descriptionEl.textContent = expense.description;
+  } else {
+    descriptionEl.textContent = "Description Not Given";
+  }
+  descriptionEl.classList.add("list-item__subtitle");
+  expenseEl.appendChild(descriptionEl);
+
+  return expenseEl;
+};

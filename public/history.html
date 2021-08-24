@@ -3,16 +3,50 @@
   <head>
     <title>History Page</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="history.css" />
   </head>
   <body>
-    <div class="pagination">
-      <div class="tableList" id="listingTable"></div>
+    <main class="main-container-history">
+      <h1>Reconciliation History</h1>
+      <h4 class="history-date">Start and Finish Date</h4>
+      <div class="row">
+        <div class="column">
+          <h3>David</h3>
+          <div id="calculationsD">
+            <div>
+              <label for="totalD">Total for the month:</label>
+              <label id="totalD">₩</label>
+            </div>
+            <div>
+              <label for="differenceD">Difference:</label>
+              <label id="differenceD">₩</label>
+            </div>
+          </div>
+          <div id="expenses"></div>
+        </div>
+        <div class="column">
+          <h3>Justin</h3>
+          <div id="calculationsJ">
+            <div>
+              <label for="totalJ">Total for the month:</label>
+              <label id="totalJ">₩</label>
+            </div>
+            <div>
+              <label for="differenceJ">Difference:</label>
+              <label id="differenceJ">₩</label>
+            </div>
+          </div>
+          <div id="expensesJ"></div>
+        </div>
+      </div>
       <div class="pagination-block">
         <span class="pageButton outline-none" id="button_prev">Prev</span>
         <span id="page_number" class="outline-none"></span>
         <span class="pageButton outline-none" id="button_next">Next</span>
+        <span class="pageButton" id="go_back">Go Back</span>
       </div>
-    </div>
+    </main>
+    <div id="loading"></div>
     <script src="/scripts/history-bundle.js"></script>
   </body>
 </html>

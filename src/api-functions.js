@@ -1,4 +1,4 @@
-////////////////// -------------- API Requests -------------- ///////////////////
+//////////////////// -------------- API Requests -------------- ////////////////////
 const { url: base_url } = require("../env");
 
 // GET david's password from the database

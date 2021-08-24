@@ -7,4 +7,4 @@ const env = {
   },
 };
 
-module.exports = env.local;
+module.exports = env.prod;

@@ -16,6 +16,7 @@ const totalD = document.querySelector("#totalD");
 const totalJ = document.querySelector("#totalJ");
 const resetD = document.querySelector("#resetD");
 const resetJ = document.querySelector("#resetJ");
+const history = document.querySelector("#history");
 
 // initially disabling all the buttons
 addElement.disabled = true;
@@ -45,6 +46,12 @@ const runRen = async () => {
     addElement.disabled = false;
     addElement.addEventListener("click", async (e) => {
       location.assign(`edit.html`);
+    });
+
+    // history button
+    history.addEventListener("click", (e) => {
+      console.log(e);
+      location.assign(`history.html`);
     });
 
     // Sign out Button Functionality --- David

@@ -17,24 +17,18 @@ const getData = new Promise((res, rej) => {
   const parser = new URL(window.location);
   const pageQueryParam = parser.searchParams.get("page");
 
-  const response = fetch(
-    `${base_url}/history/${pageQueryParam ? pageQueryParam : 1}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((response) => {
+  fetch(`${base_url}/history/${pageQueryParam ? pageQueryParam : 1}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((response) => {
     if (response.status < 400) {
       res(response.json());
     }
   });
 });
-const totalD = document.querySelector("#totalD");
-const totalJ = document.querySelector("#totalJ");
-const differenceD = document.querySelector("#differenceD");
-const differenceJ = document.querySelector("#differenceJ");
+
 (function () {
   "use strict";
 
@@ -44,7 +38,6 @@ const differenceJ = document.querySelector("#differenceJ");
     const parser = new URL(window.location);
     const _current_page = parser.searchParams.get("page");
     let current_page = _current_page ? _current_page : 1;
-    let records_per_page = 1;
 
     this.init = function () {
       renderPage(dataSession);
@@ -85,26 +78,69 @@ const differenceJ = document.querySelector("#differenceJ");
     };
 
     let renderPage = function (d) {
+      // doing stuff for difference and totals
+      const totalD = document.querySelector("#totalD");
+      const totalJ = document.querySelector("#totalJ");
+      const differenceD = document.querySelector("#differenceD");
+      const differenceJ = document.querySelector("#differenceJ");
+      const dateShow = document.querySelector(".history-date");
+      const goBack = document.querySelector("#go_back");
+      goBack.addEventListener("click", () => {
+        location.assign(`render.html`);
+      });
       // select tag for expenses for both people
       let expensesElDavid;
       let expensesElJustin;
-      expensesElDavid = document.querySelector("#expenses"); //.style.pointerEvents = "none";
+      expensesElDavid = document.querySelector("#expenses");
       expensesElDavid.style.pointerEvents = "none";
-      expensesElJustin = document.querySelector("#expensesJ"); //.style.pointerEvents = "none";
+      expensesElJustin = document.querySelector("#expensesJ");
       expensesElJustin.style.pointerEvents = "none";
+      const { davidSess: davidExpenses, justinSess: justinExpenses } =
+        d.expenses;
+      let dTotal = 0;
+      let jTotal = 0;
+      let jDiff = 0;
+      let dDiff = 0;
+      if (davidExpenses.length > 0) {
+        davidExpenses.forEach((davidExpenses) => {
+          dTotal = dTotal + Number(davidExpenses.amount);
+          const expenseElDavid = generateDOM(davidExpenses);
 
-      for (let p of d.expenses) {
-        if (p.user === "david") {
-          const expenseElDavid = generateDOM(p);
           expensesElDavid.appendChild(expenseElDavid);
-        } else if (p.user === "justin") {
-          const expenseElJustin = generateDOM(p);
-          expensesElJustin.appendChild(expenseElJustin);
-        } else alert("error: unknow user on expenses.user");
+        });
+      } else {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.textContent = "No expenses to show";
+        emptyMessage.classList.add("empty-message");
+        expensesElDavid.appendChild(emptyMessage);
       }
-
-      const totalForTheMonths = null;
-      const listingTable = document.getElementById("listingTable");
+      if (justinExpenses.length > 0) {
+        justinExpenses.forEach((justinExpenses) => {
+          console.log(justinExpenses);
+          jTotal = jTotal + Number(justinExpenses.amount);
+          const expenseElJustin = generateDOM(justinExpenses);
+          expensesElJustin.appendChild(expenseElJustin);
+        });
+      } else {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.textContent = "No expenses to show";
+        emptyMessage.classList.add("empty-message");
+        expensesElJustin.appendChild(emptyMessage);
+      }
+      console.log(dTotal, jTotal);
+      // renderTotInd --- both Justin and David
+      totalD.textContent = `${formatCurr(dTotal)}`;
+      totalJ.textContent = `${formatCurr(jTotal)}`;
+      // renderTotDiff --- both Justin and David
+      const difference = calculateDifference(dTotal, jTotal);
+      const dOperationSign = dTotal < jTotal ? "-" : "";
+      const jOperationSign = jTotal < dTotal ? "-" : "";
+      differenceD.textContent = `${dOperationSign} ${formatCurr(difference)}`;
+      differenceJ.textContent = `${jOperationSign} ${formatCurr(difference)}`;
+      dateShow.textContent = `Date: FROM ${new Date(
+        d.createdAt
+      ).toLocaleString()} TO ${new Date(d.updatedAt).toLocaleString()}`;
+      // checkButtonOpacity();
     };
     // handles prev button click - refresh page if clicked
     let prevPage = function () {
@@ -152,14 +188,6 @@ const differenceJ = document.querySelector("#differenceJ");
     let numPages = function () {
       return totalCount; // Math.ceil(objJson.length / records_per_page);
     };
-  }
-  function onReady(callback) {
-    var intervalId = window.setInterval(function () {
-      if (document.getElementsByTagName("body")[0] !== undefined) {
-        window.clearInterval(intervalId);
-        callback.call(this);
-      }
-    }, 1000);
   }
 
   function setVisible(selector, visible) {

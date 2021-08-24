@@ -83,7 +83,9 @@ const getData = new Promise((res, rej) => {
       const totalJ = document.querySelector("#totalJ");
       const differenceD = document.querySelector("#differenceD");
       const differenceJ = document.querySelector("#differenceJ");
-      const dateShow = document.querySelector(".history-date");
+      const dateShow1 = document.querySelector(".history-date1");
+      const dateShow2 = document.querySelector(".history-date2");
+      const info = document.querySelector(".info");
       const goBack = document.querySelector("#go_back");
       goBack.addEventListener("click", () => {
         location.assign(`render.html`);
@@ -116,7 +118,6 @@ const getData = new Promise((res, rej) => {
       }
       if (justinExpenses.length > 0) {
         justinExpenses.forEach((justinExpenses) => {
-          console.log(justinExpenses);
           jTotal = jTotal + Number(justinExpenses.amount);
           const expenseElJustin = generateDOM(justinExpenses);
           expensesElJustin.appendChild(expenseElJustin);
@@ -127,7 +128,6 @@ const getData = new Promise((res, rej) => {
         emptyMessage.classList.add("empty-message");
         expensesElJustin.appendChild(emptyMessage);
       }
-      console.log(dTotal, jTotal);
       // renderTotInd --- both Justin and David
       totalD.textContent = `${formatCurr(dTotal)}`;
       totalJ.textContent = `${formatCurr(jTotal)}`;
@@ -137,9 +137,17 @@ const getData = new Promise((res, rej) => {
       const jOperationSign = jTotal < dTotal ? "-" : "";
       differenceD.textContent = `${dOperationSign} ${formatCurr(difference)}`;
       differenceJ.textContent = `${jOperationSign} ${formatCurr(difference)}`;
-      dateShow.textContent = `Date: FROM ${new Date(
+      dateShow1.textContent = `Start Date ${new Date(
         d.createdAt
-      ).toLocaleString()} TO ${new Date(d.updatedAt).toLocaleString()}`;
+      ).toLocaleString()}`;
+      dateShow2.textContent = `Finish Date ${new Date(
+        d.updatedAt
+      ).toLocaleString()}`;
+      info.textContent = `Session lasted for ${Math.floor(
+        (new Date(d.updatedAt) - new Date(d.createdAt)) / (1000 * 60 * 60 * 24)
+      )} days and reconciliation took place ${Math.floor(
+        (new Date().getTime() - new Date(d.createdAt)) / (1000 * 60 * 60 * 24)
+      )} days ago`;
       // checkButtonOpacity();
     };
     // handles prev button click - refresh page if clicked

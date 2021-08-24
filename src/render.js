@@ -60,6 +60,11 @@ const runRen = async () => {
       location.assign(`index.html`);
     });
   } else {
+    // history button
+    history.addEventListener("click", (e) => {
+      console.log(e);
+      location.assign(`history.html`);
+    });
     // Reconcile balances --- Justin
     resetJ.disabled = false;
     resetJ.addEventListener("click", async (e) => {

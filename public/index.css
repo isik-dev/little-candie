@@ -2,7 +2,7 @@
 
 html {
   height: 100%;
-  background-color: #0b0c10;
+  background-color: rgb(46, 58, 71);
 }
 
 body {
@@ -16,9 +16,8 @@ main {
 
 .row {
   height: 100%;
-  margin: 1rem;
-  padding: 1rem;
-  background-color: rgb(31, 40, 51);
+
+  background-color: rgb(46, 58, 71);
   /* background-color: #0b0c10; */
   display: flex;
   flex-direction: column;
@@ -28,7 +27,65 @@ main {
 
 .column {
   margin: 10px;
-  padding: 5rem;
+  padding: 6rem;
   background-color: #45a29e;
   /* background-color: #1f2833; */
+}
+
+.index-page-columm {
+  font-size: large;
+  display: grid;
+  justify-items: stretch;
+  grid-gap: 0.5rem;
+  box-shadow: 3px 3px 9px 3px rgb(0, 0, 0, 0.7);
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+  transition-delay: 0s;
+  border-radius: 5%;
+}
+
+.index-page-columm:hover {
+  box-shadow: 0 24px 36px rgba(0, 0, 0, 0.22);
+}
+
+.password-box {
+  border: 1px solid #ccc;
+  padding: 0.3rem;
+  font: inherit;
+}
+
+.password-box:focus {
+  outline: none;
+  background-color: rgb(156, 198, 240);
+  border-color: #2d2d2d;
+}
+
+.submit-button {
+  background-color: #0e4f1f;
+  color: white;
+  font: inherit;
+  border: 1.5px solid #0e4f1f;
+  padding: 0.3rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submit-button:hover,
+.submit-button:active {
+  background-color: white;
+  color: #0e4f1f;
+}
+
+@media (min-width: 640px) {
+  .row {
+    flex-direction: row;
+  }
+  .column {
+    margin: 20px;
+    padding: 6rem;
+    background-color: #45a29e;
+    /* background-color: #1f2833; */
+  }
 }

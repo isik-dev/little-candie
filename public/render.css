@@ -27,3 +27,9 @@ main {
   border-bottom: 1px solid palegreen;
   background-color: rgb(30, 38, 48);
 }
+
+.row {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}

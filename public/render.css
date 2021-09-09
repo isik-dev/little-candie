@@ -48,3 +48,25 @@ main {
   margin: 0;
   padding: 0rem 4rem;
 }
+
+.calc {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: 2;
+  grid-gap: 0.6rem;
+}
+
+.calc__div {
+  padding: 0 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.calc__div label[class="calc__div-amount"] {
+  font-family: "Roboto Mono", sans-serif;
+  text-decoration: underline palegreen solid;
+  text-underline-offset: 4px;
+}

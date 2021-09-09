@@ -55,11 +55,14 @@ main {
   display: grid;
   grid-template-columns: 1;
   grid-template-rows: 2;
+  grid-template-areas:
+    "column1"
+    "column1";
   grid-gap: 0.6rem;
 }
 
 .calc__div {
-  padding: 0 3rem;
+  padding: 0 2rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -69,4 +72,42 @@ main {
   font-family: "Roboto Mono", sans-serif;
   text-decoration: underline palegreen solid;
   text-underline-offset: 4px;
+}
+
+.buttons {
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.buttons button {
+  flex: 1;
+  background-color: #13a53a;
+  color: white;
+  font: inherit;
+  border: 1.5px solid #71fa95;
+  margin: 0 1px;
+  padding: 0.3rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.buttons button:hover,
+.buttons button:active {
+  background-color: white;
+  color: #0e4f1f;
+}
+
+.buttons button[class="out"] {
+  border: 1.5px solid #ff4040;
+  background-color: rgb(141, 17, 17);
+  color: white;
+}
+
+.buttons button[class="out"]:active,
+.buttons button[class="out"]:hover {
+  background-color: red;
+  color: white;
 }

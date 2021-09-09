@@ -25,7 +25,7 @@ main {
   font-weight: bold;
   padding: 1rem 0.5rem;
   margin: 0;
-  border-bottom: 1px solid palegreen;
+  border-bottom: 2px solid palegreen;
   background-color: rgb(30, 38, 48);
 }
 
@@ -110,4 +110,34 @@ main {
 .buttons button[class="out"]:hover {
   background-color: red;
   color: white;
+}
+
+.expense__contents {
+  padding: 0 2rem;
+}
+
+.expense__contents a {
+  display: block;
+  margin: 1rem 0;
+  text-decoration: none;
+  color: white;
+  font-family: "Montserrat", monospace;
+  border-bottom: 1px dotted rgba(112, 250, 149, 0.5);
+}
+
+.expense-a-tag:hover,
+.expense-a-tag:active {
+  background-color: rgba(113, 250, 149, 0.226);
+}
+
+.expense__contents a p {
+  margin: 0;
+  padding: 0.2rem 0;
+}
+.list-item__title {
+  font-family: "Roboto Mono", sans-serif;
+}
+
+.list-item__subtitle {
+  padding-left: 7rem !important;
 }
